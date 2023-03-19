@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { getCategories } from "../helpers/api_helper";
 
 const Dashboard = () => {
   const [categories, setCategories] = useState([]);
@@ -7,28 +8,30 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const url = "/api/v1/categories/index";
+    /*
+    const url = "/api/v1/categories";
     fetch(url)
       .then((response) => {
         if (response.ok) {
           return response.json();
         }
-        throw new Error("Netwrok response was not ok.");
+        throw new Error("Network response was not ok.");
       })
       .then((response) => setCategories(response.categories))
       .catch(() => navigate("/"));
+    */
+    (async () => {
+      const data = await getCategories();
+      console.log(`data ${data}`);
+      setCategories(data.categories);
+    })();
   }, []);
-
-  console.log(categories);
-  categories.forEach((category) => {
-    console.log(category.name);
-  });
 
   const cardTemplate = (category, index) => {
     return (
-      <a
+      <Link
         className="relative flex items-start justify-between rounded-xl border border-gray-100 p-4 shadow-xl sm:p-6 lg:p-8 w-80 h-60"
-        href="#"
+        to={`/category/${category.id}`}
         key={"card" + index}
       >
         <div className="pt-4 text-gray-500">
@@ -57,7 +60,7 @@ const Dashboard = () => {
         <span className="rounded-full bg-green-100 px-3 py-1.5 text-xs font-medium text-green-600">
           4.3
         </span>
-      </a>
+      </Link>
     );
   };
 
