@@ -10,4 +10,16 @@ const getCategories = async () => {
   });
 };
 
-export { getCategories };
+const getCategory = async (id) => {
+  return await axios
+    .get(`${URL}/categories/${id}`)
+    .then((response) => response.data);
+};
+
+const getTasks = async (id) => {
+  return await axios
+    .get(`${URL}/categories/${id}/tasks`)
+    .then((response) => response.data);
+};
+
+export { getCategories, getCategory, getTasks };
