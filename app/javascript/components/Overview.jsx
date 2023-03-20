@@ -5,7 +5,6 @@ import CategoryCard from "./templates/CategoryCard";
 
 const Overview = () => {
   const [categories, setCategories] = useState([]);
-
   const navigate = useNavigate();
 
   useEffect(() => {

@@ -16,10 +16,21 @@ const getCategory = async (id) => {
     .then((response) => response.data);
 };
 
+const updateCategory = async ({ id, name, description }) => {
+  return await axios
+    .patch(`${URL}/categories/${id}`, { name, description })
+    .then((response) => {
+      return response;
+    })
+    .catch((errors) => {
+      return errors;
+    });
+};
+
 const getTasks = async (id) => {
   return await axios
     .get(`${URL}/categories/${id}/tasks`)
     .then((response) => response.data);
 };
 
-export { getCategories, getCategory, getTasks };
+export { getCategories, getCategory, updateCategory, getTasks };
