@@ -9,6 +9,9 @@ Rails.application.routes.draw do
       #get "categories/:id/tasks" => "tasks#index"
       scope :"categories/:id" do
         get "tasks" => "tasks#index"
+        put "tasks" => "tasks#create"
+        patch "tasks/:id" => "tasks#update"
+        delete "tasks/:id" => "tasks#delete"
       end
     end
   end
