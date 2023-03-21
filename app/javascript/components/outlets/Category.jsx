@@ -5,6 +5,7 @@ import {
   updateCategory,
   getTasks,
 } from "../../helpers/api_helper";
+import TasksTable from "../TasksTable";
 
 const Category = () => {
   const [category, setCategory] = useState([]);
@@ -50,31 +51,35 @@ const Category = () => {
     return response;
   };
 
-  //tasks.forEach((task) => console.log(task));
-
   return (
-    <div className="max-h-screen border-gray border-2 rounded-md col-span-3 p-5 grid grid-cols-8 grid-rows-2 gap-1">
-      <input
-        type="text"
-        disabled={false}
-        ref={categoryName}
-        className="border-none text-3xl py-1 col-span-7"
-        onChange={(e) => handleCategoryNameChange(e)}
-      />
-      <input
-        type="text"
-        disabled={false}
-        ref={categoryDesc}
-        className="border-none text-sm py-1 text-gray-400 col-span-7"
-        onChange={(e) => handleCategoryDescChange(e)}
-      />
-      <button
-        className="row-start-1 col-start-8 bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded text-xs w-3/5 h-1/2 mr-0 mt-0"
-        onClick={handleUpdateCategory}
-      >
-        Save
-      </button>
-    </div>
+    <>
+      <div className="max-h-screen border-gray border-2 rounded-md col-span-3 row-span-1 p-5 grid grid-cols-8 grid-rows-2 gap-1">
+        <input
+          type="text"
+          disabled={false}
+          ref={categoryName}
+          className="border-none text-3xl py-1 col-span-7"
+          onChange={(e) => handleCategoryNameChange(e)}
+        />
+        <input
+          type="text"
+          disabled={false}
+          ref={categoryDesc}
+          className="border-none text-sm py-1 text-gray-400 col-span-7"
+          onChange={(e) => handleCategoryDescChange(e)}
+        />
+        <button
+          className="row-start-1 col-start-8 bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded text-xs w-3/5 h-1/2 mr-0 mt-0"
+          onClick={handleUpdateCategory}
+        >
+          Save
+        </button>
+      </div>
+
+      <div className="row-span-3 col-span-3 h-full">
+        <TasksTable list={tasks} />
+      </div>
+    </>
   );
 };
 

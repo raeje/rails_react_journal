@@ -6,7 +6,10 @@ Rails.application.routes.draw do
       patch "categories/:id" => "categories#update"
       put "categories" => "categories#create"
 
-      get "categories/:id/tasks" => "tasks#index"
+      #get "categories/:id/tasks" => "tasks#index"
+      scope :"categories/:id" do
+        get "tasks" => "tasks#index"
+      end
     end
   end
 

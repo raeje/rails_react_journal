@@ -26,14 +26,14 @@ class Api::V1::CategoriesController < ActionController::API
   def create
     @category = Category.new(category_params)
 
-    respond_to do |format|
+    #respond_to do |format|
       if @category.save
         render json: { categories: @category }, status: :created
       else
-        #render json: @category.errors , status: :unprocessable_entity
-        format.json { render json: @category.errors , status: :unprocessable_entity }
+        render json: { errors: @category.errors }, status: :unprocessable_entity
+        #format.json { render json: @category.errors , status: :unprocessable_entity }
       end
-    end
+    #end
   end
 
   private

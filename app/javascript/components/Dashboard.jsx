@@ -7,13 +7,10 @@ const Dashboard = () => {
       className="grid grid-cols-12 max-h-screen box-border"
       id="dashboard-container"
     >
-      <div
-        className="col-span-2 box-border max-h-screen"
-        id="dashboard-nav"
-      ></div>
+      <div className="col-span-2 box-border h-screen" id="dashboard-nav"></div>
       <div
         id="dasboard-body"
-        className="overflow-scroll max-h-screen box-border col-span-10 border-black border-2 grid grid-cols-3 gap-10 p-12 place-content-between"
+        className="overflow-scroll h-screen max-h-screen box-border col-span-10 border-black border-2 grid grid-cols-3 grid-rows- 4 gap-10 p-12 place-content-between"
       >
         <Outlet />
       </div>

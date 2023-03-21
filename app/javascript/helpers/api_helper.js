@@ -23,7 +23,7 @@ const createCategory = async ({ name, description }) => {
       return response;
     })
     .catch((errors) => {
-      return errors;
+      return errors.response;
     });
 };
 
