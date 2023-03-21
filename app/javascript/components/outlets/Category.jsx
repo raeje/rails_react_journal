@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getCategory, updateCategory, getTasks } from "../helpers/api_helper";
+import {
+  getCategory,
+  updateCategory,
+  getTasks,
+} from "../../helpers/api_helper";
 
 const Category = () => {
   const [category, setCategory] = useState([]);

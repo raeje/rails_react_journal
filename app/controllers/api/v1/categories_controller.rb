@@ -2,8 +2,7 @@ class Api::V1::CategoriesController < ActionController::API
   #before_action :set_category
 
   def index
-    @categories = Category.all
-    p @categories
+    @categories = Category.all.order(created_at: :desc)
     render json: { categories: @categories }
   end
 
@@ -19,7 +18,21 @@ class Api::V1::CategoriesController < ActionController::API
     if @category.update(category_params)
       render json: { categories: @category }, status: :ok
     else
-      render json: @car.errors, status: :unprocessable_entity
+      render json: { errors: @category.errors }, status: :unprocessable_entity
+    end
+  end
+
+
+  def create
+    @category = Category.new(category_params)
+
+    respond_to do |format|
+      if @category.save
+        render json: { categories: @category }, status: :created
+      else
+        #render json: @category.errors , status: :unprocessable_entity
+        format.json { render json: @category.errors , status: :unprocessable_entity }
+      end
     end
   end
 

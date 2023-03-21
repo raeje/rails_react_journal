@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       get "categories" => "categories#index"
       get "categories/:id" => "categories#show"
       patch "categories/:id" => "categories#update"
+      put "categories" => "categories#create"
 
       get "categories/:id/tasks" => "tasks#index"
     end

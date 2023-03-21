@@ -16,6 +16,17 @@ const getCategory = async (id) => {
     .then((response) => response.data);
 };
 
+const createCategory = async ({ name, description }) => {
+  return await axios
+    .put(`${URL}/categories`, { name, description })
+    .then((response) => {
+      return response;
+    })
+    .catch((errors) => {
+      return errors;
+    });
+};
+
 const updateCategory = async ({ id, name, description }) => {
   return await axios
     .patch(`${URL}/categories/${id}`, { name, description })
@@ -33,4 +44,4 @@ const getTasks = async (id) => {
     .then((response) => response.data);
 };
 
-export { getCategories, getCategory, updateCategory, getTasks };
+export { getCategories, getCategory, createCategory, updateCategory, getTasks };

@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { getCategories } from "../helpers/api_helper";
-import CategoryCard from "./templates/CategoryCard";
+import { getCategories } from "../../helpers/api_helper";
+import CategoryCard from "../templates/CategoryCard";
+import CategoryForm from "../templates/CategoryForm";
 
 const Overview = () => {
   const [categories, setCategories] = useState([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
     /*
@@ -31,7 +30,12 @@ const Overview = () => {
     <CategoryCard category={category} index={index} />
   ));
 
-  return <>{renderCards}</>;
+  return (
+    <>
+      <CategoryForm setCategories={setCategories} />
+      {renderCards}
+    </>
+  );
 };
 
 export default Overview;
