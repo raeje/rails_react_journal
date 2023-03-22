@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
   getCategory,
   updateCategory,
@@ -12,7 +12,6 @@ const Category = () => {
   const [tasks, setTasks] = useState([]);
   const categoryName = useRef("");
   const categoryDesc = useRef("");
-  const navigate = useNavigate();
   const params = useParams();
 
   useEffect(() => {
@@ -77,7 +76,11 @@ const Category = () => {
       </div>
 
       <div className="row-span-3 col-span-3 h-full">
-        <TasksTable list={tasks} />
+        <TasksTable
+          tasks={tasks}
+          setTasks={setTasks}
+          categoryId={category.id}
+        />
       </div>
     </>
   );

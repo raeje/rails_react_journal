@@ -1,10 +1,42 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getTasks, createTask } from "../helpers/api_helper";
 
-const TasksTable = ({ list }) => {
-  // todo: install font awesome to make this work
-  //<i className="fas fa-arrow-up text-emerald-500 mr-4"></i>
-  const thClassName =
-    "px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left";
+// todo: install font awesome to make this work
+//<i className="fas fa-arrow-up text-emerald-500 mr-4"></i>
+
+const initState = {
+  name: "",
+  description: "",
+};
+
+const TasksTable = ({ categoryId, tasks, setTasks }) => {
+  const [task, setTask] = useState(initState);
+
+  const handleFormChange = (e) => {
+    const { name, value } = e.target;
+    setTask({ ...task, [name]: value });
+  };
+
+  const handleCreateTask = async () => {
+    console.log(categoryId);
+    console.log(`name: ${task.name}`);
+    console.log(`description: ${task.description}`);
+
+    // Create a task
+    const createAction = await createTask({
+      category_id: categoryId,
+      name: task.name,
+      description: task.description,
+    });
+
+    // Update tasks list
+    const getTasksAction = await getTasks(categoryId);
+    setTasks(getTasksAction.tasks);
+
+    // Reset form fields
+    setTask(initState);
+    console.log(createAction);
+  };
 
   const dateConverter = (date) => {
     return (
@@ -14,9 +46,14 @@ const TasksTable = ({ list }) => {
       </>
     );
   };
+
+  const thClassName =
+    "px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left";
+  const tdClassName =
+    "border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ";
+  const inputClassName = " px-2 py-1 ";
+
   const renderTableRow = (item, index) => {
-    const tdClassName =
-      "border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ";
     return (
       <tr key={`tr-${index}`}>
         <td className={tdClassName}>CRUD</td>
@@ -31,7 +68,49 @@ const TasksTable = ({ list }) => {
   };
 
   const renderRows = () => {
-    return list.map((item, index) => renderTableRow(item, index));
+    return tasks.map((item, index) => renderTableRow(item, index));
+  };
+
+  const renderCreateForm = () => {
+    return (
+      <tr key={`tr-create-form`}>
+        <td className={tdClassName}>
+          <button onClick={handleCreateTask}>CREATE</button>
+        </td>
+        <td className={tdClassName}>
+          <input
+            type="text"
+            className={inputClassName}
+            name="name"
+            value={task.name}
+            onChange={handleFormChange}
+          />
+        </td>
+        <td className={tdClassName}>
+          <input
+            type="text"
+            className={inputClassName}
+            value={task.description}
+            name="description"
+            onChange={handleFormChange}
+          />
+        </td>
+        <td className={tdClassName}>
+          <input
+            type="datetime-local"
+            className={inputClassName}
+            id="new-created-at"
+          />
+        </td>
+        <td className={tdClassName}>
+          <input
+            type="datetime-local"
+            className={inputClassName}
+            id="new-updated-at"
+          />
+        </td>
+      </tr>
+    );
   };
 
   return (
@@ -47,10 +126,10 @@ const TasksTable = ({ list }) => {
               </div>
               <div className="relative w-full px-4 max-w-full flex-grow flex-1 text-right">
                 <button
-                  className="bg-indigo-500 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                  className="bg-green-500 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                   type="button"
                 >
-                  CREATE
+                  +
                 </button>
               </div>
             </div>
@@ -68,7 +147,10 @@ const TasksTable = ({ list }) => {
                 </tr>
               </thead>
 
-              <tbody>{renderRows()}</tbody>
+              <tbody>
+                {renderCreateForm()}
+                {renderRows()}
+              </tbody>
             </table>
           </div>
         </div>

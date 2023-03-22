@@ -44,4 +44,21 @@ const getTasks = async (id) => {
     .then((response) => response.data);
 };
 
-export { getCategories, getCategory, createCategory, updateCategory, getTasks };
+const createTask = async ({ category_id, name, description }) => {
+  return await axios
+    .put(`${URL}/categories/${category_id}/tasks`, {
+      category_id,
+      name,
+      description,
+    })
+    .then((response) => response.data);
+};
+
+export {
+  getCategories,
+  getCategory,
+  createCategory,
+  updateCategory,
+  getTasks,
+  createTask,
+};

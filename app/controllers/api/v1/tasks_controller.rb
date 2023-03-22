@@ -1,4 +1,5 @@
 class Api::V1::TasksController < ApplicationController
+  skip_before_action :verify_authenticity_token
 
   def index
     @tasks = Task.where(category_id: params[:id])
@@ -9,9 +10,9 @@ class Api::V1::TasksController < ApplicationController
     @task = Task.new(task_params)
 
     if @task.save
-      render json: { tasks: @task }, status: :ok
+      render json: { tasks: @task }, status: :created
     else
-      render json: { errors: @task }, status: :unprocessable_entity
+      render json: { errors: @task.errors }, status: :unprocessable_entity
     end
   end
 
@@ -27,11 +28,11 @@ class Api::V1::TasksController < ApplicationController
 
   def delete
     @task = Task.find(params[:id])
-    render json: { head :no_content }
+    render json: { head: :no_content }
   end
 
   private
   def task_params
-    params.require(:tasks).permit(:name, :description)
+    params.require(:task).permit(:category_id, :name, :description)
   end
 end
