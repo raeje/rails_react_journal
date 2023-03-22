@@ -68,11 +68,9 @@ const Category = () => {
           onChange={(e) => handleCategoryDescChange(e)}
         />
         <button
-          className="row-start-1 col-start-8 bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded text-xs w-3/5 h-1/2 mr-0 mt-0"
+          className="fa-regular fa-floppy-disk rounded-lg text-lg m-1 row-start-1 col-start-8 bg-orange-600 hover:bg-orange-700 text-white font-bold w-4/5 h-2/3"
           onClick={handleUpdateCategory}
-        >
-          Save
-        </button>
+        ></button>
       </div>
 
       <div className="row-span-3 col-span-3 h-full">

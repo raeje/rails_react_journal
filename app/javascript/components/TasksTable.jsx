@@ -53,8 +53,7 @@ const TasksTable = ({ categoryId, tasks, setTasks }) => {
     }
 
     if (action === "delete") {
-      console.log(toast);
-      toast.success(`Task ${nameDOM.value} deleted`);
+      toast.success(`Task '${nameDOM.value}' deleted.`);
     }
   };
 
@@ -165,8 +164,8 @@ const TasksTable = ({ categoryId, tasks, setTasks }) => {
   };
 
   return (
-    <section className="py-1 bg-blueGray-50 w-full">
-      <div className="w-full xl:mb-0 mx-auto">
+    <section className="py-1 bg-blueGray-50 w-full max-h-screen">
+      <div className="xl:mb-0 mx-auto">
         <div className="relative flex flex-col min-w-0 break-words bg-white w-full shadow-lg rounded ">
           <div className="rounded-t mb-0 px-4 py-3 border-0">
             <div className="flex flex-wrap items-center">
