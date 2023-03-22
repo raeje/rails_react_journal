@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { getTasks, createTask, updateTask } from "../helpers/api_helper";
+import { toast, ToastContainer } from "react-toastify";
 
 // todo: install font awesome to make this work
 //<i className="fas fa-arrow-up text-emerald-500 mr-4"></i>
@@ -50,6 +51,11 @@ const TasksTable = ({ categoryId, tasks, setTasks }) => {
         description: descriptionDOM.value,
       });
     }
+
+    if (action === "delete") {
+      console.log(toast);
+      toast.success(`Task ${nameDOM.value} deleted`);
+    }
   };
 
   const dateConverter = (date) => {
@@ -79,11 +85,12 @@ const TasksTable = ({ categoryId, tasks, setTasks }) => {
               className={`fa-regular fa-floppy-disk bg-orange-600 ${buttonClassName}`}
               name={`update-${item.id}`}
               onClick={handleTaskActions}
-            />
+            ></button>
             <button
               className={`fa-regular fa-trash-can bg-red-600 ${buttonClassName}`}
               name={`delete-${item.id}`}
-            />
+              onClick={handleTaskActions}
+            ></button>
           </div>
         </td>
         <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
@@ -192,6 +199,7 @@ const TasksTable = ({ categoryId, tasks, setTasks }) => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </section>
   );
 };
