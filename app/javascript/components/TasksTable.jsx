@@ -54,9 +54,19 @@ const TasksTable = ({ categoryId, tasks, setTasks }) => {
   const inputClassName = " px-2 py-1 ";
 
   const renderTableRow = (item, index) => {
+    const buttonClassName = "rounded-lg p-2 text-lg m-1 text-white ";
     return (
       <tr key={`tr-${index}`}>
-        <td className={tdClassName}>CRUD</td>
+        <td className={tdClassName}>
+          <div className="w-full flex justify-evenly">
+            <button
+              className={`fa-regular fa-floppy-disk bg-orange-600 ${buttonClassName}`}
+            />
+            <button
+              className={`fa-regular fa-trash-can bg-red-600 ${buttonClassName}`}
+            />
+          </div>
+        </td>
         <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
           {item.name}
         </th>
@@ -75,7 +85,10 @@ const TasksTable = ({ categoryId, tasks, setTasks }) => {
     return (
       <tr key={`tr-create-form`}>
         <td className={tdClassName}>
-          <button onClick={handleCreateTask}>CREATE</button>
+          <button
+            onClick={handleCreateTask}
+            className="fa-solid fa-plus text-lg w-full p-2 rounded-lg text-lg text-white bg-green-600"
+          />
         </td>
         <td className={tdClassName}>
           <input
@@ -124,14 +137,7 @@ const TasksTable = ({ categoryId, tasks, setTasks }) => {
                   Tasks
                 </h3>
               </div>
-              <div className="relative w-full px-4 max-w-full flex-grow flex-1 text-right">
-                <button
-                  className="bg-green-500 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                  type="button"
-                >
-                  +
-                </button>
-              </div>
+              <div className="relative w-full px-4 max-w-full flex-grow flex-1 text-right"></div>
             </div>
           </div>
 

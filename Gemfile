@@ -6,6 +6,9 @@ ruby "3.2.1"
 # Use CORS to avoid "CSRF token authenticity" error
 gem 'rack-cors', :require => 'rack/cors'
 
+# Use fontawesome 'coz why not
+gem "font-awesome-sass", "~> 6.3.0"
+
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.4", ">= 7.0.4.3"
 
