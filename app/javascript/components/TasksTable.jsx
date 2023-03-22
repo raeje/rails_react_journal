@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getTasks, createTask } from "../helpers/api_helper";
+import { getTasks, createTask, updateTask } from "../helpers/api_helper";
 
 // todo: install font awesome to make this work
 //<i className="fas fa-arrow-up text-emerald-500 mr-4"></i>
@@ -14,14 +14,11 @@ const TasksTable = ({ categoryId, tasks, setTasks }) => {
 
   const handleFormChange = (e) => {
     const { name, value } = e.target;
+    console.log(name, value);
     setTask({ ...task, [name]: value });
   };
 
   const handleCreateTask = async () => {
-    console.log(categoryId);
-    console.log(`name: ${task.name}`);
-    console.log(`description: ${task.description}`);
-
     // Create a task
     const createAction = await createTask({
       category_id: categoryId,
@@ -36,6 +33,23 @@ const TasksTable = ({ categoryId, tasks, setTasks }) => {
     // Reset form fields
     setTask(initState);
     console.log(createAction);
+  };
+
+  const handleTaskActions = async (e) => {
+    const [action, id] = e.target.name.split("-");
+    const nameDOM = document.querySelector(`input[name=name-${id}]`);
+    const descriptionDOM = document.querySelector(
+      `input[name=description-${id}]`
+    );
+
+    if (action === "update") {
+      const updateAction = await updateTask({
+        category_id: categoryId,
+        id,
+        name: nameDOM.value,
+        description: descriptionDOM.value,
+      });
+    }
   };
 
   const dateConverter = (date) => {
@@ -53,32 +67,49 @@ const TasksTable = ({ categoryId, tasks, setTasks }) => {
     "border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ";
   const inputClassName = " px-2 py-1 ";
 
-  const renderTableRow = (item, index) => {
+  const renderTableRow = (item) => {
     const buttonClassName = "rounded-lg p-2 text-lg m-1 text-white ";
+    const newDate = /(^.+):/.exec(item.created_at)[1];
+
     return (
-      <tr key={`tr-${index}`}>
+      <tr key={`tr-${item.id}`}>
         <td className={tdClassName}>
           <div className="w-full flex justify-evenly">
             <button
               className={`fa-regular fa-floppy-disk bg-orange-600 ${buttonClassName}`}
+              name={`update-${item.id}`}
+              onClick={handleTaskActions}
             />
             <button
               className={`fa-regular fa-trash-can bg-red-600 ${buttonClassName}`}
+              name={`delete-${item.id}`}
             />
           </div>
         </td>
         <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
-          {item.name}
+          <input
+            type="text"
+            defaultValue={item.name}
+            name={`name-${item.id}`}
+          />
         </th>
-        <td className={tdClassName}>{item.description}</td>
-        <td className={tdClassName}>{dateConverter(item.created_at)}</td>
+        <td className={tdClassName}>
+          <input
+            type="text"
+            defaultValue={item.description}
+            name={`description-${item.id}`}
+          />
+        </td>
+        <td className={tdClassName}>
+          <input type="datetime-local" defaultValue={newDate} />
+        </td>
         <td className={tdClassName}>{dateConverter(item.updated_at)}</td>
       </tr>
     );
   };
 
   const renderRows = () => {
-    return tasks.map((item, index) => renderTableRow(item, index));
+    return tasks.map((item) => renderTableRow(item));
   };
 
   const renderCreateForm = () => {

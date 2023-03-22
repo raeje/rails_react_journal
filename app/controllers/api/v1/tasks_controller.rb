@@ -19,7 +19,7 @@ class Api::V1::TasksController < ApplicationController
   def update
     @task = Task.find(params[:id])
 
-    if @task.update
+    if @task.update(task_params)
       render json: { tasks: @task }, status: :ok
     else
       render json: { errors: @task.errors }, status: :ok

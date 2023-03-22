@@ -54,6 +54,17 @@ const createTask = async ({ category_id, name, description }) => {
     .then((response) => response.data);
 };
 
+const updateTask = async ({ category_id, id, name, description }) => {
+  return await axios
+    .patch(`${URL}/categories/${category_id}/tasks/${id}`, {
+      category_id,
+      name,
+      description,
+      id,
+    })
+    .then((response) => response.data);
+};
+
 export {
   getCategories,
   getCategory,
@@ -61,4 +72,5 @@ export {
   updateCategory,
   getTasks,
   createTask,
+  updateTask,
 };
