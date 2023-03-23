@@ -9,6 +9,12 @@ gem 'rack-cors', :require => 'rack/cors'
 # Use fontawesome 'coz why not
 gem "font-awesome-sass", "~> 6.3.0"
 
+# For user auth
+gem 'bcrypt', '~> 3.1', '>= 3.1.12'
+
+# For debugging
+gem "pry"
+
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.4", ">= 7.0.4.3"
 
@@ -57,6 +63,7 @@ gem "bootsnap", require: false
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
+  gem "annotate"
 end
 
 group :development do
