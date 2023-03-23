@@ -13,7 +13,7 @@
 
 
 class User < ApplicationRecord
-  #has_secure_password
+  has_secure_password
   include BCrypt
 
   validates(:email, presence: true, uniqueness: true)

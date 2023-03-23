@@ -11,6 +11,7 @@ gem "font-awesome-sass", "~> 6.3.0"
 
 # For user auth
 gem 'bcrypt', '~> 3.1', '>= 3.1.12'
+gem 'jwt'
 
 # For debugging
 gem "pry"
