@@ -6,11 +6,18 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
+# create User
+u = User.create!(
+  email: "admin",
+  password: "admin"
+)
+
 # create Category and Task
 # Work
 c = Category.create!(
   name: "Work",
-  description: "work stuff activities"
+  description: "work stuff activities",
+  user_id: u.id
 )
 
 c.tasks.create!(
@@ -22,7 +29,8 @@ c.tasks.create!(
 # Social
 c = Category.create!(
   name: "Social",
-  description: "for mingling with other humans"
+  description: "for mingling with other humans",
+  user_id: u.id
 )
 
 c.tasks.create!(
@@ -40,7 +48,8 @@ c.tasks.create!(
 # Movies and TV
 c = Category.create!(
   name: "Movies and TV",
-  description: "very long watch list"
+  description: "very long watch list",
+  user_id: u.id
 )
 
 c.tasks.create!(
@@ -70,7 +79,8 @@ c.tasks.create!(
 # Sports
 c = Category.create!(
   name: "Sports",
-  description: "well.. more of an e-sports category"
+  description: "well.. more of an e-sports category",
+  user_id: u.id
 )
 
 c.tasks.create!(
@@ -82,7 +92,8 @@ c.tasks.create!(
 # Home
 c = Category.create!(
   name: "Home",
-  description: "chores chores chores"
+  description: "chores chores chores",
+  user_id: u.id
 )
 
 c.tasks.create!(
@@ -94,7 +105,8 @@ c.tasks.create!(
 # Food
 c = Category.create!(
   name: "Food",
-  description: "must try list"
+  description: "must try list",
+  user_id: u.id
 )
 
 c.tasks.create!(
@@ -106,7 +118,8 @@ c.tasks.create!(
 # Finance
 c = Category.create!(
   name: "Finance",
-  description: "investments, if there are any"
+  description: "investments, if there are any",
+  user_id: u.id
 )
 
 c.tasks.create!(
@@ -118,13 +131,15 @@ c.tasks.create!(
 # Shop
 c = Category.create!(
   name: "Shop",
-  description: "buy list, there are many"
+  description: "buy list, there are many",
+  user_id: u.id
 )
 
 # Travel
 c = Category.create!(
   name: "Travel",
-  description: "soon..."
+  description: "soon...",
+  user_id: u.id
 )
 
 c.tasks.create!(

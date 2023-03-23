@@ -4,7 +4,7 @@ class Api::V1::AuthController < ActionController::API
       @user = User.signup(user_params)
       render json: { user: @user.email }, status: :created
     else
-      render json: {errors: @user }, status: :unprocessable_entity
+      render json: {errors: @user.errors }, status: :unprocessable_entity
     end
   end
 
