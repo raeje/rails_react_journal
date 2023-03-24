@@ -17,7 +17,7 @@ Rails.application.routes.draw do
 
       # Auth routes
       #put "signup" => "auth#signup"
-      post "login" => "auth#login"
+      put "login" => "auth#login"
       delete "logout" => "auth#logout"
 
       # User routes

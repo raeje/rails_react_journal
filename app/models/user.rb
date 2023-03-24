@@ -23,7 +23,6 @@ class User < ApplicationRecord
 
   def self.signup(user_params)
     password_hash = Password.create(user_params[:password])
-
     create(email: user_params[:email], password: password_hash)
   end
 end

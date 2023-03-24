@@ -1,4 +1,4 @@
-class Api::V1::AuthController < ActionController::API
+class Api::V1::AuthController < ApplicationController
   before_action :authorize_request, except: :login
 
   def signup
@@ -12,12 +12,12 @@ class Api::V1::AuthController < ActionController::API
 
   def login
     @user = User.find_by_email(params[:email])
-    p "found user: #{@user}"
-    p @user
+
     if @user&.authenticate(params[:password])
       token = JsonWebToken.encode(user_id: @user.id)
+      @user.update({password: params[:password], token: token})
       time = Time.now + 24.hours.to_i
-      render json: { token: token, exp: time.strftime("%m-%d-%Y %H:%M"), email: @user.email, id: @user.id }, status: :ok
+      render json: { error: @user.errors, token: token, exp: time.strftime("%m-%d-%Y %H:%M"), email: @user.email, id: @user.id }, status: :ok
     else
       render json: { error: @user&.authenticate(params[:password]) }, status: :unauthorized
     end

@@ -1,5 +1,5 @@
 class Api::V1::TasksController < ApplicationController
-  skip_before_action :verify_authenticity_token
+  before_action :authorize_request
 
   def index
     @tasks = Task.where(category_id: params[:id])

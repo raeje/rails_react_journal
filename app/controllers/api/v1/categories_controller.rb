@@ -1,5 +1,6 @@
-class Api::V1::CategoriesController < ActionController::API
+class Api::V1::CategoriesController < ApplicationController
   #before_action :set_category
+  before_action :authorize_request
 
   def index
     @categories = Category.all.order(created_at: :desc)
@@ -42,6 +43,6 @@ class Api::V1::CategoriesController < ActionController::API
   end
 
   def category_params
-    params.require(:category).permit(:name, :description)
+    params.require(:category).permit(:user_id, :name, :description)
   end
 end
