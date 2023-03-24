@@ -1,6 +1,14 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
+      # Auth routes
+      put "signup" => "auth#signup"
+      #put "login" => "auth#login"
+      #delete "logout" => "auth#logout"
+
+      # User routes
+      #put "signup" => "users#create"
+
       # Category routes
       get "categories" => "categories#index"
       get "categories/:id" => "categories#show"
@@ -15,13 +23,6 @@ Rails.application.routes.draw do
         delete "tasks/:id" => "tasks#delete"
       end
 
-      # Auth routes
-      #put "signup" => "auth#signup"
-      put "login" => "auth#login"
-      delete "logout" => "auth#logout"
-
-      # User routes
-      put "signup" => "users#create"
     end
   end
 

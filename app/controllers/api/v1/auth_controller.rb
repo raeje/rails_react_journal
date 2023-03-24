@@ -1,10 +1,11 @@
 class Api::V1::AuthController < ApplicationController
-  before_action :authorize_request, except: :login
+  protect_from_forgery with: :null_session
+  #before_action :authorize_request, except: :signup
 
   def signup
     if (user_params[:password] == user_params[:password_confirmation])
       @user = User.signup(user_params)
-      render json: { user: @user.email }, status: :created
+      render json: { message: "User #{@user.email} created!" }, status: :created
     else
       render json: { errors: @user.errors }, status: :unprocessable_entity
     end

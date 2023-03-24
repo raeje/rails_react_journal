@@ -1,8 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
+import { signup } from "../helpers/api_helper";
+import { toast, ToastContainer } from "react-toastify";
+
+const initForm = {
+  email: "",
+  password: "",
+  password_confirmation: "",
+};
 
 const SignupForm = () => {
   const divClassName = "flex items-center border-2 py-2 px-3 rounded-2xl";
   const inputClassName = "pl-2 outline-none border-none";
+  const [signupForm, setSignupForm] = useState(initForm);
+
+  handleSubmit = async (e) => {
+    e.preventDefault();
+    const submitAction = await signup(signupForm);
+    if (submitAction.status === 201) {
+      toast.success(`User created.`);
+    } else {
+      toast.error(`Error.`);
+    }
+  };
+
+  handleFormChange = (e) => {
+    const { name, value } = e.target;
+    setSignupForm({ ...signupForm, [name]: value });
+  };
+
   return (
     <div className="flex md:w-1/2 justify-center py-10 items-center bg-white">
       <form className="bg-white">
@@ -29,10 +54,12 @@ const SignupForm = () => {
           <input
             className={`${inputClassName}`}
             type="text"
-            name=""
+            name="email"
+            onChange={handleFormChange}
             placeholder="Email Address"
           />
         </div>
+
         <div className={`${divClassName} mb-4`}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -49,7 +76,8 @@ const SignupForm = () => {
           <input
             className={`${inputClassName}`}
             type="password"
-            name=""
+            name="password"
+            onChange={handleFormChange}
             placeholder="Password"
           />
         </div>
@@ -69,20 +97,26 @@ const SignupForm = () => {
           <input
             className={`${inputClassName}`}
             type="password"
-            name=""
+            name="password_confirmation"
+            onChange={handleFormChange}
             placeholder="Confirm Password"
           />
         </div>
         <button
           type="submit"
           className="block w-full bg-indigo-600 mt-4 py-2 rounded-2xl text-white font-semibold mb-2"
+          onClick={handleSubmit}
         >
           Register
         </button>
-        <span className="text-sm ml-2 hover:text-blue-500 cursor-pointer">
+        <span
+          className="text-sm ml-2 hover:text-blue-500 cursor-pointer"
+          onClick={() => toast.success("it's working..")}
+        >
           Forgot Password ?
         </span>
       </form>
+      <ToastContainer />
     </div>
   );
 };

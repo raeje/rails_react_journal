@@ -1,5 +1,6 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 const Auth = () => {
   return (
@@ -25,6 +26,7 @@ const Auth = () => {
         <div className="absolute -top-20 -right-20 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
       </div>
       <Outlet />
+      <ToastContainer />
     </div>
   );
 };

@@ -3,6 +3,22 @@ import axios from "axios";
 //const URL = process.env.JOURNAL_APP_URL;
 const URL = "http://localhost:3000/api/v1";
 
+// ============================================================================
+// Users
+// ============================================================================
+const signup = async ({ email, password, password_confirmation }) => {
+  return await axios
+    .put(`${URL}/signup`, { email, password, password_confirmation })
+    .then((response) => {
+      console.log(response);
+      return response;
+    })
+    .catch((errors) => errors);
+};
+
+// ============================================================================
+// Categories
+// ============================================================================
 const getCategories = async () => {
   return await axios.get(`${URL}/categories`).then((response) => {
     console.log(response.data);
@@ -37,7 +53,9 @@ const updateCategory = async ({ id, name, description }) => {
       return errors;
     });
 };
-
+// ============================================================================
+// Tasks
+// ============================================================================
 const getTasks = async (id) => {
   return await axios
     .get(`${URL}/categories/${id}/tasks`)
@@ -66,6 +84,7 @@ const updateTask = async ({ category_id, id, name, description }) => {
 };
 
 export {
+  signup,
   getCategories,
   getCategory,
   createCategory,

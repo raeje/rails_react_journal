@@ -15,7 +15,7 @@ export default (
         <Route path="dashboard" element={<Overview />} />
         <Route path="category/:id" element={<Category />} />
       </Route>
-      <Route path="auth" element={<Auth />}>
+      <Route path="/auth" element={<Auth />}>
         <Route path="login" element={<LoginForm />} />
         <Route path="signup" element={<SignupForm />} />
       </Route>
