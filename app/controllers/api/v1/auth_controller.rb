@@ -3,11 +3,17 @@ class Api::V1::AuthController < ApplicationController
   #before_action :authorize_request, except: :signup
 
   def signup
+    @user = User.new({email: params[:email], password: params[:password]})
+
     if (user_params[:password] == user_params[:password_confirmation])
-      @user = User.signup(user_params)
-      render json: { message: "User #{@user.email} created!" }, status: :created
+      if @user.save
+        @user = User.signup(user_params)
+        render json: { message: "User #{@user.email} created!" }, status: :created
+      else
+        render json: { errors: @user.errors }, status: :unprocessable_entity
+      end
     else
-      render json: { errors: @user.errors }, status: :unprocessable_entity
+      render json: { errors: "Passwords do not match"}, status: :unprocessable_entity
     end
   end
 

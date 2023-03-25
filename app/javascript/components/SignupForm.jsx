@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { signup } from "../helpers/api_helper";
 import { toast, ToastContainer } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const initForm = {
   email: "",
@@ -13,13 +14,18 @@ const SignupForm = () => {
   const inputClassName = "pl-2 outline-none border-none";
   const [signupForm, setSignupForm] = useState(initForm);
 
+  const navigate = useNavigate();
+
   handleSubmit = async (e) => {
     e.preventDefault();
     const submitAction = await signup(signupForm);
+
     if (submitAction.status === 201) {
-      toast.success(`User created.`);
+      console.log(submitAction);
+      navigate("/auth/login");
+      toast.success(submitAction.data.message);
     } else {
-      toast.error(`Error.`);
+      toast.error(submitAction.errors);
     }
   };
 

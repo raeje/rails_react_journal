@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-
+  protect_from_forgery with: :null_session
   def not_found
     render json: { error: 'not_found' }
   end
@@ -16,5 +16,10 @@ class ApplicationController < ActionController::Base
     rescue JWT::DecodeError => e
       render json: { errors: e.message }, status: :unauthorized
     end
+  end
+
+  private
+  def user_params
+    params.permit(:email, :password, :password_confirmation)
   end
 end
