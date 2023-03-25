@@ -13,7 +13,10 @@ const signup = async ({ email, password, password_confirmation }) => {
       console.log(response);
       return response;
     })
-    .catch((errors) => errors);
+    .catch((errors) => {
+      console.log(errors);
+      return errors.response.data;
+    });
 };
 
 // ============================================================================

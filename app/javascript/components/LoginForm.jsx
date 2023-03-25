@@ -1,6 +1,8 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
+  const navigate = useNavigate();
   return (
     <div className="flex md:w-1/2 justify-center py-10 items-center bg-white">
       <form className="bg-white">
@@ -60,7 +62,10 @@ const LoginForm = () => {
           Forgot Password?
         </span>
         <br />
-        <span className="text-sm ml-2 hover:text-blue-500 cursor-pointer">
+        <span
+          className="text-sm ml-2 hover:text-blue-500 cursor-pointer"
+          onClick={() => navigate("/auth/signup")}
+        >
           Don't have an account?
         </span>
       </form>

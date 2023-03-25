@@ -25,7 +25,10 @@ const SignupForm = () => {
       navigate("/auth/login");
       toast.success(submitAction.data.message);
     } else {
-      toast.error(submitAction.errors);
+      //console.log(Object.keys(submitAction.errors));
+      Object.keys(submitAction.errors).forEach((key) => {
+        toast.error(`${key.toUpperCase()} ${submitAction.errors[key]}.`);
+      });
     }
   };
 
@@ -117,9 +120,9 @@ const SignupForm = () => {
         </button>
         <span
           className="text-sm ml-2 hover:text-blue-500 cursor-pointer"
-          onClick={() => toast.success("it's working..")}
+          onClick={() => navigate("/auth/login")}
         >
-          Forgot Password ?
+          Already have an account?
         </span>
       </form>
       <ToastContainer />
