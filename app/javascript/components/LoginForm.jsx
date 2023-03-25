@@ -1,7 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { login } from "../helpers/api_helper";
+
+const initLoginForm = {
+  email: "",
+  password: "",
+};
 
 const LoginForm = () => {
+  const [loginForm, setLoginForm] = useState(initLoginForm);
+
+  handleFormChange = (e) => {
+    const { name, value } = e.target;
+    setLoginForm({ ...loginForm, [name]: value });
+  };
+
+  handleLogin = async (e) => {
+    e.preventDefault();
+    const loginAction = await login({
+      email: loginForm.email,
+      password: loginForm.password,
+    });
+
+    if (loginAction.status === 200) {
+      console.log(loginAction.data);
+      toast.success(`Welcome back ${loginForm.email}`);
+      navigate("/dashboard");
+      localStorage.setItem("user", JSON.stringify(loginAction.data));
+    } else {
+      toast.error(loginAction.error);
+    }
+  };
+
   const navigate = useNavigate();
   return (
     <div className="flex md:w-1/2 justify-center py-10 items-center bg-white">
@@ -26,8 +57,8 @@ const LoginForm = () => {
           <input
             className="pl-2 outline-none border-none"
             type="text"
-            name=""
-            id=""
+            name="email"
+            onChange={handleFormChange}
             placeholder="Email Address"
           />
         </div>
@@ -46,19 +77,23 @@ const LoginForm = () => {
           </svg>
           <input
             className="pl-2 outline-none border-none"
-            type="text"
-            name=""
-            id=""
+            type="password"
+            name="password"
+            onChange={handleFormChange}
             placeholder="Password"
           />
         </div>
         <button
           type="submit"
           className="block w-full bg-indigo-600 mt-4 py-2 rounded-2xl text-white font-semibold mb-2"
+          onClick={handleLogin}
         >
           Login
         </button>
-        <span className="text-sm ml-2 hover:text-blue-500 cursor-pointer">
+        <span
+          className="text-sm ml-2 hover:text-blue-500 cursor-pointer"
+          onClick={() => toast.info("Email verification sent.")}
+        >
           Forgot Password?
         </span>
         <br />

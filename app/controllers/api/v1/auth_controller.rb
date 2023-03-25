@@ -1,7 +1,8 @@
 class Api::V1::AuthController < ApplicationController
   protect_from_forgery with: :null_session
-  #before_action :authorize_request, except: :signup
+  before_action :authorize_request, except: [:signup, :login]
 
+  # PUT signup
   def signup
     @user = User.new({email: params[:email], password: params[:password]})
 
@@ -17,8 +18,16 @@ class Api::V1::AuthController < ApplicationController
     end
   end
 
+  # PUT login
   def login
     @user = User.find_by_email(params[:email])
+    if (params[:email] == "" || params[:password] == "")
+      return render json: { error: "Email and password can't be blank." }, status: :unauthorized
+    end
+
+    if (!@user)
+      return render json: { error: "User #{params[:email]} not found." }, status: :unauthorized
+    end
 
     if @user&.authenticate(params[:password])
       token = JsonWebToken.encode(user_id: @user.id)
@@ -26,7 +35,7 @@ class Api::V1::AuthController < ApplicationController
       time = Time.now + 24.hours.to_i
       render json: { error: @user.errors, token: token, exp: time.strftime("%m-%d-%Y %H:%M"), email: @user.email, id: @user.id }, status: :ok
     else
-      render json: { error: @user&.authenticate(params[:password]) }, status: :unauthorized
+      render json: { error: "Incorrect password. Please try again." }, status: :unauthorized
     end
   end
 

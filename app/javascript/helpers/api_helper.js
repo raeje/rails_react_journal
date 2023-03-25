@@ -10,13 +10,20 @@ const signup = async ({ email, password, password_confirmation }) => {
   return await axios
     .put(`${URL}/signup`, { email, password, password_confirmation })
     .then((response) => {
-      console.log(response);
+      //console.log(response);
       return response;
     })
     .catch((errors) => {
-      console.log(errors);
+      //console.log(errors);
       return errors.response.data;
     });
+};
+
+const login = async ({ email, password }) => {
+  return await axios
+    .put(`${URL}/login`, { email, password })
+    .then((response) => response)
+    .catch((errors) => errors.response.data);
 };
 
 // ============================================================================
@@ -88,6 +95,7 @@ const updateTask = async ({ category_id, id, name, description }) => {
 
 export {
   signup,
+  login,
   getCategories,
   getCategory,
   createCategory,

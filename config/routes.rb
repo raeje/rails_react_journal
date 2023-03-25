@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       # Auth routes
       put "signup" => "auth#signup"
-      #put "login" => "auth#login"
+      put "login" => "auth#login"
       #delete "logout" => "auth#logout"
 
       # User routes
