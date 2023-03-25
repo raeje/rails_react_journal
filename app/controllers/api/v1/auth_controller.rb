@@ -39,13 +39,23 @@ class Api::V1::AuthController < ApplicationController
     end
   end
 
+  # PUT logout
   def logout
+    @user = User.find_by_email(params[:email])
+    if (!@user)
+      return render json: { error: "Invalid action." }, status: :bad_request
+    end
 
+    if @user.update( token: nil)
+      render json: { message: "Logout successful." }, status: :ok
+    else
+      render json: { errors: @user.errors }, status: :unprocessable_entity
+    end
   end
 
   private
   def user_params
-    params.permit(:email, :password, :password_confirmation)
+    params.permit(:email, :password, :password_confirmation, :token)
   end
 
 end

@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { login } from "../helpers/api_helper";
+import { getCurrentUser } from "../helpers/util";
 
 const initLoginForm = {
   email: "",
@@ -10,6 +11,14 @@ const initLoginForm = {
 
 const LoginForm = () => {
   const [loginForm, setLoginForm] = useState(initLoginForm);
+  const currentUser = getCurrentUser();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (currentUser?.token) {
+      navigate("/dashboard");
+    }
+  });
 
   handleFormChange = (e) => {
     const { name, value } = e.target;
@@ -25,15 +34,13 @@ const LoginForm = () => {
 
     if (loginAction.status === 200) {
       console.log(loginAction.data);
-      toast.success(`Welcome back ${loginForm.email}`);
+      toast.success(`Welcome back ${loginForm.email}!`);
       navigate("/dashboard");
-      localStorage.setItem("user", JSON.stringify(loginAction.data));
     } else {
       toast.error(loginAction.error);
     }
   };
 
-  const navigate = useNavigate();
   return (
     <div className="flex md:w-1/2 justify-center py-10 items-center bg-white">
       <form className="bg-white">

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { setCurrentUser, getCurrentUser } from "./util";
 
 //const URL = process.env.JOURNAL_APP_URL;
 const URL = "http://localhost:3000/api/v1";
@@ -22,8 +23,25 @@ const signup = async ({ email, password, password_confirmation }) => {
 const login = async ({ email, password }) => {
   return await axios
     .put(`${URL}/login`, { email, password })
-    .then((response) => response)
+    .then((response) => {
+      setCurrentUser(response.data);
+      return response;
+    })
     .catch((errors) => errors.response.data);
+};
+
+const logout = () => {
+  localStorage.clear();
+  return { message: "Logout successful." };
+  /*
+  return await axios
+    .put(`${URL}/logout`, { email })
+    .then((response) => {
+      setCurrentUser();
+      return response;
+    })
+    .catch((errors) => errors.response.data);
+  */
 };
 
 // ============================================================================
@@ -96,6 +114,7 @@ const updateTask = async ({ category_id, id, name, description }) => {
 export {
   signup,
   login,
+  logout,
   getCategories,
   getCategory,
   createCategory,

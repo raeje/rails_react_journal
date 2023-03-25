@@ -8,6 +8,7 @@ import Category from "../components/outlets/Category";
 import Overview from "../components/outlets/Overview";
 
 //<Route path="/" element={<Home />}></Route>
+
 export default (
   <Router>
     <Routes>

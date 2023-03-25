@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { signup } from "../helpers/api_helper";
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { getCurrentUser } from "../helpers/util";
 
 const initForm = {
   email: "",
@@ -13,8 +14,15 @@ const SignupForm = () => {
   const divClassName = "flex items-center border-2 py-2 px-3 rounded-2xl";
   const inputClassName = "pl-2 outline-none border-none";
   const [signupForm, setSignupForm] = useState(initForm);
+  const [currentUser, setCurrentUser] = useState(getCurrentUser());
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (currentUser?.token) {
+      navigate("/dashboard");
+    }
+  });
 
   handleSubmit = async (e) => {
     e.preventDefault();
