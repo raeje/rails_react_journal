@@ -6,6 +6,7 @@ import SignupForm from "../components/SignupForm";
 import Dashboard from "../components/Dashboard";
 import Category from "../components/outlets/Category";
 import Overview from "../components/outlets/Overview";
+import TasksDueToday from "../components/outlets/TasksDueToday";
 
 //<Route path="/" element={<Home />}></Route>
 
@@ -15,6 +16,7 @@ export default (
       <Route path="/" element={<Dashboard />}>
         <Route path="dashboard" element={<Overview />} />
         <Route path="category/:id" element={<Category />} />
+        <Route path="tasks-due-today" element={<TasksDueToday />} />
       </Route>
       <Route path="/auth" element={<Auth />}>
         <Route path="login" element={<LoginForm />} />
