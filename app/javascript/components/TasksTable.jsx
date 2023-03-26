@@ -10,6 +10,13 @@ const initState = {
   description: "",
 };
 
+const datetimeLocal = (datetime) => {
+  if (!datetime) return "";
+  const dt = new Date(datetime);
+  dt.setMinutes(dt.getMinutes() - dt.getTimezoneOffset());
+  return dt.toISOString().slice(0, 16);
+};
+
 const TasksTable = ({ categoryId, tasks, setTasks }) => {
   const [task, setTask] = useState(initState);
 
@@ -25,7 +32,16 @@ const TasksTable = ({ categoryId, tasks, setTasks }) => {
       category_id: categoryId,
       name: task.name,
       description: task.description,
+      due_date: task.due_date,
     });
+
+    if (createAction.status === 201) {
+      toast.success(createAction.data.message);
+    } else {
+      Object.keys(createAction.errors).forEach((key) => {
+        toast.error(`${key.toUpperCase()} ${createAction.errors[key]}.`);
+      });
+    }
 
     // Update tasks list
     const getTasksAction = await getTasks(categoryId);
@@ -34,6 +50,53 @@ const TasksTable = ({ categoryId, tasks, setTasks }) => {
     // Reset form fields
     setTask(initState);
     console.log(createAction);
+  };
+
+  const renderCreateForm = () => {
+    return (
+      <tr key={`tr-create-form`}>
+        <td className={tdClassName}>
+          <button
+            onClick={handleCreateTask}
+            className="fa-solid fa-plus text-lg w-full p-2 rounded-lg text-lg bg-green-100 hover:bg-green-200 text-green-600"
+          />
+        </td>
+        <td className={tdClassName}>
+          <input
+            type="text"
+            className={inputClassName}
+            name="name"
+            value={task.name}
+            onChange={handleFormChange}
+          />
+        </td>
+        <td className={tdClassName}>
+          <input
+            type="text"
+            className={inputClassName}
+            value={task.description}
+            name="description"
+            onChange={handleFormChange}
+          />
+        </td>
+        <td className={tdClassName}>
+          <input
+            type="datetime-local"
+            className={inputClassName}
+            id="new-duedate"
+            name="due_date"
+            onChange={handleFormChange}
+          />
+        </td>
+        <td className={tdClassName}>
+          <input
+            type="datetime-local"
+            className={inputClassName}
+            id="new-updated-at"
+          />
+        </td>
+      </tr>
+    );
   };
 
   const handleTaskActions = async (e) => {
@@ -73,20 +136,19 @@ const TasksTable = ({ categoryId, tasks, setTasks }) => {
   const inputClassName = " px-2 py-1 ";
 
   const renderTableRow = (item) => {
-    const buttonClassName = "rounded-lg p-2 text-lg m-1 text-white ";
-    const newDate = /(^.+):/.exec(item.created_at)[1];
+    const buttonClassName = "rounded-lg p-2 text-lg m-1 ";
 
     return (
       <tr key={`tr-${item.id}`}>
         <td className={tdClassName}>
           <div className="w-full flex justify-evenly">
             <button
-              className={`fa-regular fa-floppy-disk bg-orange-600 ${buttonClassName}`}
+              className={`fa-regular fa-floppy-disk bg-orange-100 hover:bg-orange-200 text-orange-600 ${buttonClassName}`}
               name={`update-${item.id}`}
               onClick={handleTaskActions}
             ></button>
             <button
-              className={`fa-regular fa-trash-can bg-red-600 ${buttonClassName}`}
+              className={`fa-regular fa-trash-can bg-red-100 hover:bg-red-200 text-red-600 ${buttonClassName}`}
               name={`delete-${item.id}`}
               onClick={handleTaskActions}
             ></button>
@@ -107,60 +169,18 @@ const TasksTable = ({ categoryId, tasks, setTasks }) => {
           />
         </td>
         <td className={tdClassName}>
-          <input type="datetime-local" defaultValue={newDate} />
+          <input
+            type="datetime-local"
+            defaultValue={datetimeLocal(item.due_date)}
+          />
         </td>
-        <td className={tdClassName}>{dateConverter(item.updated_at)}</td>
+        <td className={tdClassName}>{dateConverter(item.due_date)}</td>
       </tr>
     );
   };
 
   const renderRows = () => {
     return tasks.map((item) => renderTableRow(item));
-  };
-
-  const renderCreateForm = () => {
-    return (
-      <tr key={`tr-create-form`}>
-        <td className={tdClassName}>
-          <button
-            onClick={handleCreateTask}
-            className="fa-solid fa-plus text-lg w-full p-2 rounded-lg text-lg text-white bg-green-600"
-          />
-        </td>
-        <td className={tdClassName}>
-          <input
-            type="text"
-            className={inputClassName}
-            name="name"
-            value={task.name}
-            onChange={handleFormChange}
-          />
-        </td>
-        <td className={tdClassName}>
-          <input
-            type="text"
-            className={inputClassName}
-            value={task.description}
-            name="description"
-            onChange={handleFormChange}
-          />
-        </td>
-        <td className={tdClassName}>
-          <input
-            type="datetime-local"
-            className={inputClassName}
-            id="new-created-at"
-          />
-        </td>
-        <td className={tdClassName}>
-          <input
-            type="datetime-local"
-            className={inputClassName}
-            id="new-updated-at"
-          />
-        </td>
-      </tr>
-    );
   };
 
   return (
@@ -185,7 +205,7 @@ const TasksTable = ({ categoryId, tasks, setTasks }) => {
                   <th className={thClassName}>Actions</th>
                   <th className={thClassName}>Task name</th>
                   <th className={thClassName}>Description</th>
-                  <th className={thClassName}>Create Date</th>
+                  <th className={thClassName}>Due Date</th>
                   <th className={thClassName}>Last Updated</th>
                 </tr>
               </thead>

@@ -63,7 +63,7 @@ const getCategories = async () => {
 const createCategory = async ({ name, description }) => {
   const currentUser = getCurrentUser();
   const user_id = currentUser.id;
-  const headers = { Authorization: `Bearer ${currentUser.token}` };
+  //const headers = { Authorization: `Bearer ${currentUser.token}` };
 
   return await axios
     .put(
@@ -118,19 +118,25 @@ const deleteCategory = async (id) => {
 // Tasks
 // ============================================================================
 const getTasks = async (id) => {
+  const currentUser = getCurrentUser();
+  const user_id = currentUser.id;
+  const headers = { Authorization: currentUser.token, user_id };
   return await axios
-    .get(`${URL}/categories/${id}/tasks`)
+    .get(`${URL}/categories/${id}/tasks`, { params: { id, user_id }, headers })
     .then((response) => response.data);
 };
 
-const createTask = async ({ category_id, name, description }) => {
+const createTask = async ({ category_id, name, description, due_date }) => {
+  const currentUser = getCurrentUser();
+  const user_id = currentUser.id;
   return await axios
-    .put(`${URL}/categories/${category_id}/tasks`, {
-      category_id,
-      name,
-      description,
-    })
-    .then((response) => response.data);
+    .put(
+      `${URL}/categories/${category_id}/tasks`,
+      { user_id, category_id, name, description, due_date },
+      { headers: { Authorization: `Bearer ${currentUser.token}` } }
+    )
+    .then((response) => response)
+    .catch((errors) => errors.response.data);
 };
 
 const updateTask = async ({ category_id, id, name, description }) => {

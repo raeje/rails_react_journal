@@ -1,4 +1,5 @@
 class Api::V1::TasksController < ApplicationController
+  protect_from_forgery with: :null_session
   before_action :authorize_request
 
   def index
@@ -6,11 +7,12 @@ class Api::V1::TasksController < ApplicationController
     render json: { tasks: @tasks }
   end
 
+  # PUT /categories/:id/tasks
   def create
     @task = Task.new(task_params)
 
     if @task.save
-      render json: { tasks: @task }, status: :created
+      render json: { message: "Task '#{@task.name}' created!" }, status: :created
     else
       render json: { errors: @task.errors }, status: :unprocessable_entity
     end
@@ -33,6 +35,6 @@ class Api::V1::TasksController < ApplicationController
 
   private
   def task_params
-    params.require(:task).permit(:category_id, :name, :description)
+    params.require(:task).permit(:category_id, :name, :description, :due_date)
   end
 end
