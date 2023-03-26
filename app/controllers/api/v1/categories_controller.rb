@@ -5,21 +5,12 @@ class Api::V1::CategoriesController < ApplicationController
 
   # GET /categories
   def index
-    #@categories = Category.all.order(created_at: :desc)
-    #p "================================================="
-    #p "  index"
-    #p params[:user_id]
-    #p "================================================="
     @categories = Category.where(user_id: params[:user_id]).order(created_at: :desc)
     render json: { categories: @categories }
   end
 
+  # PUT /categories
   def create
-    p "================================================="
-    p "create category"
-    p params
-    p "================================================="
-    #@category = Category.new(user_id: params[:user_id], name: params[:name], description: params[:description])
     @category = Category.new(category_params)
 
     if @category.save
@@ -36,6 +27,7 @@ class Api::V1::CategoriesController < ApplicationController
     render json: { categories: [@category] }
   end
 
+  # PATCH /categories/:id
   def update
     @category = Category.find(params[:id])
 
@@ -46,13 +38,16 @@ class Api::V1::CategoriesController < ApplicationController
     end
   end
 
+  # DELETE /categories/:id
+  def delete
+    @category = Category.find(params[:id])
+    @category.destroy
+    render json: { message: "Category '#{@category.name}' deleted!"}, status: :ok
+  end
+
   private
   def set_category
     @category = Category.find(params[:id])
-  end
-
-  def create_params
-    params.require(:category).permit(:user_id, :name, :description).permitted?
   end
 
   def category_params

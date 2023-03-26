@@ -21,7 +21,7 @@ const CategoryForm = ({ setCategories }) => {
       description.current.value = "";
     } else {
       Object.keys(createAction.errors).forEach((key) => {
-        toast.error(`${key.toUpperCase()} ${submitAction.errors[key]}.`);
+        toast.error(`${key.toUpperCase()} ${createAction.errors[key]}.`);
       });
     }
 

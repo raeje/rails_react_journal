@@ -10,13 +10,17 @@ const Overview = () => {
   useEffect(() => {
     (async () => {
       const data = await getCategories();
-      //console.log(`data ${data.categories[0]?.id}`);
       setCategories(data.categories);
     })();
   }, []);
 
   const renderCards = categories?.map((category, index) => (
-    <CategoryCard category={category} index={index} key={index} />
+    <CategoryCard
+      category={category}
+      index={index}
+      key={index}
+      setCategories={setCategories}
+    />
   ));
 
   return (

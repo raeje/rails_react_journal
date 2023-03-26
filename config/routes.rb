@@ -10,12 +10,13 @@ Rails.application.routes.draw do
       #put "signup" => "users#create"
 
       # Category routes
-      #scope :":user_id" do
-        get "categories" => "categories#index"
-        get "categories/:id" => "categories#show"
-        patch "categories/:id" => "categories#update"
-        put "categories" => "categories#create"
-      #end
+
+      get "categories" => "categories#index"
+      get "categories/:id" => "categories#show"
+      patch "categories/:id" => "categories#update"
+      put "categories" => "categories#create"
+      delete "categories/:id" => "categories#delete"
+
 
       # Task routes
       scope :"categories/:id" do

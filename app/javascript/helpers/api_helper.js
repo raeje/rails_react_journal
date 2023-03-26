@@ -75,8 +75,8 @@ const createCategory = async ({ name, description }) => {
       return response;
     })
     .catch((errors) => {
-      console.log(errors.response);
-      return errors.response;
+      console.log(errors.response.data.errors);
+      return errors.response.data;
     });
 };
 
@@ -103,6 +103,16 @@ const updateCategory = async ({ id, name, description }) => {
     .catch((errors) => {
       return errors.response;
     });
+};
+
+const deleteCategory = async (id) => {
+  const currentUser = getCurrentUser();
+  return await axios
+    .delete(`${URL}/categories/${id}`, {
+      headers: { Authorization: `Bearer ${currentUser.token}` },
+    })
+    .then((response) => response)
+    .catch((errors) => errors.response);
 };
 // ============================================================================
 // Tasks
@@ -142,6 +152,7 @@ export {
   getCategory,
   createCategory,
   updateCategory,
+  deleteCategory,
   getTasks,
   createTask,
   updateTask,
