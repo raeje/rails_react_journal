@@ -17,7 +17,6 @@ const Category = () => {
   useEffect(() => {
     (async () => {
       const data = await getCategory(params.id);
-      //console.log(`category ${data.categories[0]}`);
       setCategory(data.categories[0]);
       setCategoryReference(data.categories[0]);
 

@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import { getCategories, createCategory } from "../../helpers/api_helper";
+import { toast } from "react-toastify";
 
 const CategoryForm = ({ setCategories }) => {
   const name = useRef("");
@@ -9,16 +10,24 @@ const CategoryForm = ({ setCategories }) => {
   const inputClassName = "border-none focus:border-b-2 mb-2 w-full py-1 px-2";
 
   const handleCreate = async () => {
-    const response = await createCategory({
+    const createAction = await createCategory({
       name: name.current.value,
       description: description.current.value,
     });
 
-    console.log(response);
+    if (createAction.status === 201) {
+      toast.success(createAction.data.message);
+      name.current.value = "";
+      description.current.value = "";
+    } else {
+      Object.keys(createAction.errors).forEach((key) => {
+        toast.error(`${key.toUpperCase()} ${submitAction.errors[key]}.`);
+      });
+    }
 
     const categories = await getCategories();
     setCategories(categories.categories);
-    return response;
+    return createAction;
   };
 
   handleNameChange = (e) => {

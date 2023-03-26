@@ -48,27 +48,52 @@ const logout = () => {
 // Categories
 // ============================================================================
 const getCategories = async () => {
-  return await axios.get(`${URL}/categories`).then((response) => {
-    console.log(response.data);
-    return response.data;
-  });
-};
+  const currentUser = getCurrentUser();
+  console.log(currentUser.id);
+  const user_id = currentUser.id;
+  const headers = { Authorization: currentUser.token, user_id };
 
-const getCategory = async (id) => {
   return await axios
-    .get(`${URL}/categories/${id}`)
-    .then((response) => response.data);
+    .get(`${URL}/${user_id}/categories`, { params: { user_id }, headers })
+    .then((response) => {
+      console.log(response.data);
+      return response.data;
+    });
 };
 
 const createCategory = async ({ name, description }) => {
+  const currentUser = getCurrentUser();
+  const user_id = currentUser.id;
+  const headers = { Authorization: `Bearer ${currentUser.token}` };
+
   return await axios
-    .put(`${URL}/categories`, { name, description })
+    .put(
+      `${URL}/${user_id}/categories`,
+      { user_id, name, description },
+      { headers: { Authorization: `Bearer ${currentUser.token}` } }
+    )
     .then((response) => {
       return response;
     })
     .catch((errors) => {
+      console.log(errors.response);
       return errors.response;
     });
+};
+
+const getCategory = async (id) => {
+  const currentUser = getCurrentUser();
+  console.log(currentUser.id);
+  const user_id = currentUser.id;
+  const headers = { Authorization: currentUser.token, user_id };
+  return await axios
+    .get(`${URL}/categories/${id}`, { headers })
+    .then((response) => response.data);
+  /*
+          { headers: { Authorization: "Bearer " + currentUser.token } },
+      { user_id: currentUser.id },
+      { headers: { Authorization: `Bearer ${currentUser.token}` } }
+    */
 };
 
 const updateCategory = async ({ id, name, description }) => {
