@@ -22,15 +22,16 @@ class Api::V1::TasksController < ApplicationController
     @task = Task.find(params[:id])
 
     if @task.update(task_params)
-      render json: { tasks: @task }, status: :ok
+      render json: { message: "Task '#{@task.name}' updated!" }, status: :ok
     else
-      render json: { errors: @task.errors }, status: :ok
+      render json: { errors: @task.errors }, status: :unprocessable_entity
     end
   end
 
   def delete
     @task = Task.find(params[:id])
-    render json: { head: :no_content }
+    @task.destroy
+    render json: { message: "Task '#{@task.name}' deleted!"}, status: :ok
   end
 
   private

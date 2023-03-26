@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { getTasks, createTask, updateTask } from "../helpers/api_helper";
+import {
+  getTasks,
+  createTask,
+  updateTask,
+  deleteTask,
+} from "../helpers/api_helper";
 import { toast, ToastContainer } from "react-toastify";
 
 // todo: install font awesome to make this work
@@ -17,12 +22,20 @@ const datetimeLocal = (datetime) => {
   return dt.toISOString().slice(0, 16);
 };
 
+const dateConverter = (date) => {
+  return (
+    <>
+      <p>{new Date(date).toDateString()}</p>
+      <p>{new Date(date).toLocaleTimeString()}</p>
+    </>
+  );
+};
+
 const TasksTable = ({ categoryId, tasks, setTasks }) => {
   const [task, setTask] = useState(initState);
 
   const handleFormChange = (e) => {
     const { name, value } = e.target;
-    console.log(name, value);
     setTask({ ...task, [name]: value });
   };
 
@@ -105,6 +118,7 @@ const TasksTable = ({ categoryId, tasks, setTasks }) => {
     const descriptionDOM = document.querySelector(
       `input[name=description-${id}]`
     );
+    const dueDateDOM = document.querySelector(`input[name=due_date-${id}]`);
 
     if (action === "update") {
       const updateAction = await updateTask({
@@ -112,21 +126,28 @@ const TasksTable = ({ categoryId, tasks, setTasks }) => {
         id,
         name: nameDOM.value,
         description: descriptionDOM.value,
+        due_date: dueDateDOM.value,
       });
+
+      if (updateAction.status === 200) {
+        toast.success(updateAction.data.message);
+      } else {
+        Object.keys(updateAction.errors).forEach((key) => {
+          toast.error(`${key.toUpperCase()} ${updateAction.errors[key]}.`);
+        });
+      }
     }
 
     if (action === "delete") {
-      toast.success(`Task '${nameDOM.value}' deleted.`);
-    }
-  };
+      const deleteAction = await deleteTask({
+        category_id: categoryId,
+        id,
+      });
+      toast.success(deleteAction.data.message);
 
-  const dateConverter = (date) => {
-    return (
-      <>
-        <p>{new Date(date).toDateString()}</p>
-        <p>{new Date(date).toLocaleTimeString()}</p>
-      </>
-    );
+      const getTasksAction = await getTasks(categoryId);
+      setTasks(getTasksAction.tasks);
+    }
   };
 
   const thClassName =
@@ -171,10 +192,11 @@ const TasksTable = ({ categoryId, tasks, setTasks }) => {
         <td className={tdClassName}>
           <input
             type="datetime-local"
+            name={`due_date-${item.id}`}
             defaultValue={datetimeLocal(item.due_date)}
           />
         </td>
-        <td className={tdClassName}>{dateConverter(item.due_date)}</td>
+        <td className={tdClassName}></td>
       </tr>
     );
   };

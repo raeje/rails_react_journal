@@ -139,15 +139,33 @@ const createTask = async ({ category_id, name, description, due_date }) => {
     .catch((errors) => errors.response.data);
 };
 
-const updateTask = async ({ category_id, id, name, description }) => {
+const updateTask = async ({ category_id, id, name, description, due_date }) => {
+  const currentUser = getCurrentUser();
+  const user_id = currentUser.id;
   return await axios
-    .patch(`${URL}/categories/${category_id}/tasks/${id}`, {
-      category_id,
-      name,
-      description,
-      id,
+    .patch(
+      `${URL}/categories/${category_id}/tasks/${id}`,
+      {
+        category_id,
+        name,
+        description,
+        due_date,
+        id,
+      },
+      { headers: { Authorization: `Bearer ${currentUser.token}` } }
+    )
+    .then((response) => response)
+    .catch((errors) => errors.response.data);
+};
+
+const deleteTask = async ({ category_id, id }) => {
+  const currentUser = getCurrentUser();
+  return await axios
+    .delete(`${URL}/categories/${category_id}/tasks/${id}`, {
+      headers: { Authorization: `Bearer ${currentUser.token}` },
     })
-    .then((response) => response.data);
+    .then((response) => response)
+    .catch((errors) => errors.response);
 };
 
 export {
@@ -162,4 +180,5 @@ export {
   getTasks,
   createTask,
   updateTask,
+  deleteTask,
 };
