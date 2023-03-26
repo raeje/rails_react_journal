@@ -38,9 +38,9 @@ class Api::V1::CategoriesController < ApplicationController
 
   def update
     @category = Category.find(params[:id])
-    p "update params #{category_params}"
+
     if @category.update(category_params)
-      render json: { categories: @category }, status: :ok
+      render json: { message: "Category '#{@category.name}' updated!" }, status: :ok
     else
       render json: { errors: @category.errors }, status: :unprocessable_entity
     end

@@ -6,6 +6,7 @@ import {
   getTasks,
 } from "../../helpers/api_helper";
 import TasksTable from "../TasksTable";
+import { toast } from "react-toastify";
 
 const Category = () => {
   const [category, setCategory] = useState([]);
@@ -39,14 +40,23 @@ const Category = () => {
   };
 
   const handleUpdateCategory = async () => {
-    const response = await updateCategory({
+    const updateAction = await updateCategory({
       id: params.id,
       name: categoryName.current.value,
       description: categoryDesc.current.value,
     });
-    console.log(response);
-    setCategory(response);
-    return response;
+    console.log(updateAction);
+
+    if (updateAction.status === 200) {
+      toast.success(updateAction.data.message);
+    } else {
+      Object.keys(updateAction.errors).forEach((key) => {
+        toast.error(`${key.toUpperCase()} ${submitAction.errors[key]}.`);
+      });
+    }
+
+    setCategory(updateAction);
+    return updateAction;
   };
 
   return (

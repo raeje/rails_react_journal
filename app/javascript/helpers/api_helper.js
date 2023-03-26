@@ -49,12 +49,11 @@ const logout = () => {
 // ============================================================================
 const getCategories = async () => {
   const currentUser = getCurrentUser();
-  console.log(currentUser.id);
   const user_id = currentUser.id;
   const headers = { Authorization: currentUser.token, user_id };
 
   return await axios
-    .get(`${URL}/${user_id}/categories`, { params: { user_id }, headers })
+    .get(`${URL}/categories`, { params: { user_id }, headers })
     .then((response) => {
       console.log(response.data);
       return response.data;
@@ -68,7 +67,7 @@ const createCategory = async ({ name, description }) => {
 
   return await axios
     .put(
-      `${URL}/${user_id}/categories`,
+      `${URL}/categories`,
       { user_id, name, description },
       { headers: { Authorization: `Bearer ${currentUser.token}` } }
     )
@@ -83,27 +82,26 @@ const createCategory = async ({ name, description }) => {
 
 const getCategory = async (id) => {
   const currentUser = getCurrentUser();
-  console.log(currentUser.id);
   const user_id = currentUser.id;
   const headers = { Authorization: currentUser.token, user_id };
   return await axios
     .get(`${URL}/categories/${id}`, { headers })
     .then((response) => response.data);
-  /*
-          { headers: { Authorization: "Bearer " + currentUser.token } },
-      { user_id: currentUser.id },
-      { headers: { Authorization: `Bearer ${currentUser.token}` } }
-    */
 };
 
 const updateCategory = async ({ id, name, description }) => {
+  const currentUser = getCurrentUser();
   return await axios
-    .patch(`${URL}/categories/${id}`, { name, description })
+    .patch(
+      `${URL}/categories/${id}`,
+      { name, description },
+      { headers: { Authorization: `Bearer ${currentUser.token}` } }
+    )
     .then((response) => {
       return response;
     })
     .catch((errors) => {
-      return errors;
+      return errors.response;
     });
 };
 // ============================================================================
