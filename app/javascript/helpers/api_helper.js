@@ -168,6 +168,20 @@ const deleteTask = async ({ category_id, id }) => {
     .catch((errors) => errors.response);
 };
 
+const getDueTasksToday = async () => {
+  const currentUser = getCurrentUser();
+  const user_id = currentUser.id;
+  const headers = { Authorization: currentUser.token, user_id };
+  //{ params: { id, user_id }, headers }
+
+  //{ user_id },
+  //{ headers: { Authorization: `Bearer ${currentUser.token}` } }
+  return await axios
+    .get(`${URL}/tasks/due_today`, { params: { user_id }, headers })
+    .then((response) => response.data)
+    .catch((errors) => errors.response.data);
+};
+
 export {
   signup,
   login,
@@ -181,4 +195,5 @@ export {
   createTask,
   updateTask,
   deleteTask,
+  getDueTasksToday,
 };

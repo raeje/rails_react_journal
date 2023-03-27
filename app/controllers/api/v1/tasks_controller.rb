@@ -34,8 +34,29 @@ class Api::V1::TasksController < ApplicationController
     render json: { message: "Task '#{@task.name}' deleted!"}, status: :ok
   end
 
+  def due_today
+    p "===================================================="
+    p params
+    @categories = Category.where(user_id: params[:user_id])
+
+    @due_tasks = []
+    for category in @categories do
+      @tasks = category.tasks
+
+      for task in @tasks do
+        if !task.due_date.nil?
+          p task.due_date.today?
+          p "#{task.name} #{task.due_date} #{task.due_date.today?}"
+          @due_tasks.push(task) if task.due_date.today?
+        end
+      end
+    end
+
+    render json: { tasks: @due_tasks }
+  end
+
   private
   def task_params
-    params.require(:task).permit(:category_id, :name, :description, :due_date)
+    params.permit(:user_id, :category_id, :name, :description, :due_date)
   end
 end

@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
+      # Custom routes
+      get "tasks/due_today" => "tasks#due_today"
+
       # Auth routes
       put "signup" => "auth#signup"
       put "login" => "auth#login"
