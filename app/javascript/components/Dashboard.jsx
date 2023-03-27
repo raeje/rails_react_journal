@@ -12,35 +12,13 @@ const Dashboard = () => {
       navigate("/auth/login");
     }
   }, [currentUser]);
-  /*
-  const handleLogout = async () => {
-    const logoutAction = await logout({ email: currentUser.email });
-    if (logoutAction.status === 200) {
-      console.log(loginAction.data);
-      toast.success(logoutAction.data.message);
-      navigate("/dashboard");
-    } else {
-      toast.error(loginAction.error);
-    }
-  };
-  */
 
   const handleLogout = () => {
     const logoutAction = logout();
     setCurrentUser(getCurrentUser());
     console.log(logoutAction);
   };
-  /*
-        <div className="col-span-2 box-border h-screen" id="dashboard-nav">
-          <Link to="dashboard/tasks"> Tasks Due Today </Link>
-          <button
-            className="block w-full bg-indigo-600 mt-4 py-2 rounded-2xl text-white font-semibold mb-2"
-            onClick={handleLogout}
-          >
-            Logout
-          </button>
-        </div>
-*/
+
   const LINK_INACTIVE_CLASS_NAME =
     "flex items-center mb-0.5 py-2 px-4 text-gray-400 border-r-4 border-gray-800 hover:bg-gray-700 hover:text-gray-100 hover:border-gray-100";
   const LINK_ACTIVE_CLASS_NAME =
@@ -228,7 +206,7 @@ const Dashboard = () => {
 
         <div
           id="dashboard-body"
-          className="overflow-scroll h-screen max-h-screen box-border col-span-10 grid grid-cols-3 grid-rows- 4 gap-10 p-12 place-content-between"
+          className="overflow-scroll h-screen max-h-screen border-gray-100 box-border col-span-10 grid grid-cols-3 grid-rows-6 gap-10 p-12 place-content-between"
         >
           <Outlet />
         </div>

@@ -61,7 +61,7 @@ const Category = () => {
 
   return (
     <>
-      <div className="max-h-screen border-gray border-2 rounded-md col-span-3 row-span-1 p-5 grid grid-cols-8 grid-rows-2 gap-1">
+      <div className="max-h-screen border-gray-600 border-2 rounded-md col-span-3 row-span-2 p-5 grid grid-cols-8 grid-rows-2 gap-1">
         <input
           type="text"
           disabled={false}
@@ -82,7 +82,7 @@ const Category = () => {
         ></button>
       </div>
 
-      <div className="row-span-3 col-span-3 h-full">
+      <div className="row-span-6 col-span-3 min-h-full rounded-lg border-gray-400 border-2">
         <TasksTable
           tasks={tasks}
           setTasks={setTasks}

@@ -13,6 +13,8 @@ import { toast, ToastContainer } from "react-toastify";
 const initState = {
   name: "",
   description: "",
+  due_date: "",
+  status: "",
 };
 
 const datetimeLocal = (datetime) => {
@@ -46,6 +48,7 @@ const TasksTable = ({ categoryId, tasks, setTasks }) => {
       name: task.name,
       description: task.description,
       due_date: task.due_date,
+      status: task.status,
     });
 
     if (createAction.status === 201) {
@@ -70,8 +73,14 @@ const TasksTable = ({ categoryId, tasks, setTasks }) => {
       <tr key={`tr-create-form`}>
         <td className={tdClassName}>
           <button
+            onClick={() => {
+              setTask(initState);
+            }}
+            className="fa-solid fa-rotate-right text-lg w-8 h-8 rounded-lg text-lg bg-teal-100 hover:bg-teal-200 text-teal-600"
+          />
+          <button
             onClick={handleCreateTask}
-            className="fa-solid fa-plus text-lg w-full p-2 rounded-lg text-lg bg-green-100 hover:bg-green-200 text-green-600"
+            className="ml-2 fa-solid fa-plus text-lg w-8 h-8 rounded-lg text-lg bg-green-100 hover:bg-green-200 text-green-600"
           />
         </td>
         <td className={tdClassName}>
@@ -93,19 +102,25 @@ const TasksTable = ({ categoryId, tasks, setTasks }) => {
           />
         </td>
         <td className={tdClassName}>
-          <input
-            type="datetime-local"
-            className={inputClassName}
-            id="new-duedate"
-            name="due_date"
+          <select
+            name="status"
+            className={inputClassName + " w-50 min-w-50"}
+            value={task.status}
             onChange={handleFormChange}
-          />
+          >
+            <option value=""></option>
+            <option value="POSTPONED">POSTPONED</option>
+            <option value="IN PROGRESS">IN PROGRESS</option>
+            <option value="INCOMPLETE">INCOMPLETE</option>
+            <option value="COMPLETE">COMPLETE</option>
+          </select>
         </td>
         <td className={tdClassName}>
           <input
             type="datetime-local"
             className={inputClassName}
-            id="new-updated-at"
+            name="due_date"
+            onChange={handleFormChange}
           />
         </td>
       </tr>
@@ -119,6 +134,7 @@ const TasksTable = ({ categoryId, tasks, setTasks }) => {
       `input[name=description-${id}]`
     );
     const dueDateDOM = document.querySelector(`input[name=due_date-${id}]`);
+    const statusDOM = document.querySelector(`select[name=status-${id}]`);
 
     if (action === "update") {
       const updateAction = await updateTask({
@@ -127,6 +143,7 @@ const TasksTable = ({ categoryId, tasks, setTasks }) => {
         name: nameDOM.value,
         description: descriptionDOM.value,
         due_date: dueDateDOM.value,
+        status: statusDOM.value,
       });
 
       if (updateAction.status === 200) {
@@ -151,9 +168,9 @@ const TasksTable = ({ categoryId, tasks, setTasks }) => {
   };
 
   const thClassName =
-    "px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left";
+    "px-2 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left";
   const tdClassName =
-    "border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-1 ";
+    "border-t-0 px-2 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-1 ";
   const inputClassName = " rounded-lg ";
 
   const renderTableRow = (item) => {
@@ -162,20 +179,20 @@ const TasksTable = ({ categoryId, tasks, setTasks }) => {
     return (
       <tr key={`tr-${item.id}`}>
         <td className={tdClassName}>
-          <div className="w-full flex justify-evenly">
+          <div className="w-4/5 flex justify-evenly px-2">
             <button
-              className={`fa-regular fa-floppy-disk bg-orange-100 hover:bg-orange-200 text-orange-600 ${buttonClassName}`}
+              className={` w-8 h-8 fa-regular fa-floppy-disk bg-orange-100 hover:bg-orange-200 text-orange-600 ${buttonClassName}`}
               name={`update-${item.id}`}
               onClick={handleTaskActions}
             ></button>
             <button
-              className={`fa-regular fa-trash-can bg-red-100 hover:bg-red-200 text-red-600 ${buttonClassName}`}
+              className={` w-8 h-8 fa-regular fa-trash-can bg-red-100 hover:bg-red-200 text-red-600 ${buttonClassName}`}
               name={`delete-${item.id}`}
               onClick={handleTaskActions}
             ></button>
           </div>
         </td>
-        <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
+        <th className="border-t-0 px-2 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap text-left text-blueGray-700 ">
           <input
             type="text"
             defaultValue={item.name}
@@ -190,6 +207,21 @@ const TasksTable = ({ categoryId, tasks, setTasks }) => {
             name={`description-${item.id}`}
             className={inputClassName}
           />
+        </td>
+        <td className={tdClassName}>
+          <select
+            name={`status-${item.id}`}
+            type="text"
+            className={inputClassName + " w-full"}
+            defaultValue={item.status}
+            id="new-status"
+          >
+            <option value=""></option>
+            <option value="POSTPONED">POSTPONED</option>
+            <option value="IN PROGRESS">IN PROGRESS</option>
+            <option value="INCOMPLETE">INCOMPLETE</option>
+            <option value="COMPLETE">COMPLETE</option>
+          </select>
         </td>
         <td className={tdClassName}>
           <input
@@ -211,7 +243,7 @@ const TasksTable = ({ categoryId, tasks, setTasks }) => {
   return (
     <section className="py-1 bg-blueGray-50 w-full max-h-screen">
       <div className="xl:mb-0 mx-auto">
-        <div className="relative flex flex-col min-w-0 break-words bg-white w-full shadow-lg rounded ">
+        <div className="relative flex flex-col min-w-0 break-words bg-white w-full h-full shadow-lg rounded ">
           <div className="rounded-t mb-0 px-4 py-3 border-0">
             <div className="flex flex-wrap items-center">
               <div className="relative w-full px-4 max-w-full flex-grow flex-1">
@@ -230,8 +262,8 @@ const TasksTable = ({ categoryId, tasks, setTasks }) => {
                   <th className={thClassName}>Actions</th>
                   <th className={thClassName}>Task name</th>
                   <th className={thClassName}>Description</th>
+                  <th className={thClassName}>Status</th>
                   <th className={thClassName}>Due Date</th>
-                  <th className={thClassName}>Last Updated</th>
                 </tr>
               </thead>
 

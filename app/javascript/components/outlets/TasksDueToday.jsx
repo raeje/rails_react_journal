@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 import {
   getCategories,
   getDueTasksToday,
@@ -18,21 +19,6 @@ const TasksDueToday = () => {
   //const [categories, setCategories] = useState([]);
   const [dueTasks, setDueTasks] = useState([]);
 
-  const filterTasks = async (categories) => {
-    let allDueTasks = [];
-    await categories.forEach(async (category) => {
-      const tasks = await getTasks(category.id);
-      const dueToday = await tasks.tasks
-        .filter((task) => isTaskDueToday(task.due_date))
-        .map((task) => {
-          return { ...task, ["category.name"]: category.name };
-        });
-      return allDueTasks.push(...dueToday);
-    });
-    console.log("filterTasks", ...allDueTasks);
-    return allDueTasks;
-  };
-
   useEffect(() => {
     (async () => {
       const tasks = await getDueTasksToday();
@@ -47,6 +33,29 @@ const TasksDueToday = () => {
       const [dueTask, categoryName] = task;
       return trTemplate(dueTask, categoryName, index);
     });
+  };
+
+  renderTaskStatus = (status) => {
+    const color = () => {
+      if (status === "POSTPONED") {
+        return "bg-gray-100 text-gray-600";
+      } else if (status === "IN PROGRESS") {
+        return "bg-yellow-100 text-yellow-600";
+      } else if (status === "INCOMPLETE") {
+        return "bg-orange-100 text-orange-600";
+      } else if (status === "COMPLETE") {
+        return "bg-green-100 text-green-600";
+      } else {
+        return "bg-red-100 text-red-600";
+      }
+    };
+    return (
+      <div
+        className={`p-2 pl-4 text-xs focus:outline-none leading-none rounded-full w-3/4 items-center ${color()}`}
+      >
+        {status || "UNKNOWN"}
+      </div>
+    );
   };
 
   const trTemplate = (task, categoryName, index) => {
@@ -98,14 +107,17 @@ const TasksDueToday = () => {
             </div>
           </td>
           <td className="pl-14">
-            <div className="flex items-center text-blue-600 bg-blue-100 w-3/4 p-1 rounded-full">
+            <NavLink
+              className="flex items-center text-blue-600 bg-blue-100 w-3/4 p-1 rounded-full"
+              to={`/category/${task.category_id}`}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
                 strokeWidth={1}
                 stroke="currentColor"
-                className="w-5 h-5"
+                className="w-5 h-5 pl-1.5"
               >
                 <path
                   strokeLinecap="round"
@@ -114,16 +126,12 @@ const TasksDueToday = () => {
                 />
               </svg>
 
-              <p className="text-xs leading-none text-blue-600 ml-1 ">
+              <p className="p-1.5 text-xs leading-none text-blue-600 ml-1 ">
                 {categoryName}
               </p>
-            </div>
+            </NavLink>
           </td>
-          <td className="pl-5">
-            <button className="p-3 text-xs focus:outline-none leading-none text-red-600 bg-red-100 rounded-full">
-              Status
-            </button>
-          </td>
+          <td className="pl-5">{renderTaskStatus(task.status)}</td>
           <td className="pl-4">
             <button className="focus:ring-2 focus:ring-offset-2 focus:ring-red-300 text-sm leading-none text-gray-600 py-3 text-xs px-5 bg-gray-100 rounded hover:bg-gray-200 focus:outline-none">
               View

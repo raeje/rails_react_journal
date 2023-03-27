@@ -126,20 +126,33 @@ const getTasks = async (id) => {
     .then((response) => response.data);
 };
 
-const createTask = async ({ category_id, name, description, due_date }) => {
+const createTask = async ({
+  category_id,
+  name,
+  description,
+  due_date,
+  status,
+}) => {
   const currentUser = getCurrentUser();
   const user_id = currentUser.id;
   return await axios
     .put(
       `${URL}/categories/${category_id}/tasks`,
-      { user_id, category_id, name, description, due_date },
+      { user_id, category_id, name, description, due_date, status },
       { headers: { Authorization: `Bearer ${currentUser.token}` } }
     )
     .then((response) => response)
     .catch((errors) => errors.response.data);
 };
 
-const updateTask = async ({ category_id, id, name, description, due_date }) => {
+const updateTask = async ({
+  category_id,
+  id,
+  name,
+  description,
+  due_date,
+  status,
+}) => {
   const currentUser = getCurrentUser();
   const user_id = currentUser.id;
   return await axios
@@ -150,6 +163,7 @@ const updateTask = async ({ category_id, id, name, description, due_date }) => {
         name,
         description,
         due_date,
+        status,
         id,
       },
       { headers: { Authorization: `Bearer ${currentUser.token}` } }

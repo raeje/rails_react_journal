@@ -45,11 +45,14 @@ class Api::V1::TasksController < ApplicationController
 
       for task in @tasks do
         if !task.due_date.nil?
+          p "===================================================="
           p task.due_date.today?
+          p task.due_date.to_s.split(" ")[0] == Date.today.to_s
+          p Date.today.to_s
           p "#{task.name} #{task.due_date} #{task.due_date.today?}"
           p category.name
-
-          @due_tasks.push([task, category.name]) if task.due_date.today?
+          p "===================================================="
+          @due_tasks.push([task, category.name]) if task.due_date.to_s.split(" ")[0] == Date.today.to_s
         end
       end
     end
@@ -59,6 +62,6 @@ class Api::V1::TasksController < ApplicationController
 
   private
   def task_params
-    params.permit(:user_id, :category_id, :name, :description, :due_date)
+    params.permit(:category_id, :name, :description, :due_date, :status)
   end
 end
