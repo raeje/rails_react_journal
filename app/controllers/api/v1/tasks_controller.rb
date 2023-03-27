@@ -47,7 +47,9 @@ class Api::V1::TasksController < ApplicationController
         if !task.due_date.nil?
           p task.due_date.today?
           p "#{task.name} #{task.due_date} #{task.due_date.today?}"
-          @due_tasks.push(task) if task.due_date.today?
+          p category.name
+
+          @due_tasks.push([task, category.name]) if task.due_date.today?
         end
       end
     end

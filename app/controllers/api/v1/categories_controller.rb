@@ -5,7 +5,7 @@ class Api::V1::CategoriesController < ApplicationController
 
   # GET /categories
   def index
-    @categories = Category.where(user_id: params[:user_id]).order(created_at: :desc)
+    @categories = Category.where(user_id: @current_user.id).order(created_at: :desc)
     render json: { categories: @categories }
   end
 

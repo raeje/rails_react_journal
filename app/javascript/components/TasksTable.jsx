@@ -77,7 +77,7 @@ const TasksTable = ({ categoryId, tasks, setTasks }) => {
         <td className={tdClassName}>
           <input
             type="text"
-            className={inputClassName}
+            className={inputClassName + "pr-5"}
             name="name"
             value={task.name}
             onChange={handleFormChange}
@@ -153,8 +153,8 @@ const TasksTable = ({ categoryId, tasks, setTasks }) => {
   const thClassName =
     "px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left";
   const tdClassName =
-    "border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ";
-  const inputClassName = " px-2 py-1 ";
+    "border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-1 ";
+  const inputClassName = " rounded-lg ";
 
   const renderTableRow = (item) => {
     const buttonClassName = "rounded-lg p-2 text-lg m-1 ";
@@ -180,6 +180,7 @@ const TasksTable = ({ categoryId, tasks, setTasks }) => {
             type="text"
             defaultValue={item.name}
             name={`name-${item.id}`}
+            className={inputClassName}
           />
         </th>
         <td className={tdClassName}>
@@ -187,12 +188,14 @@ const TasksTable = ({ categoryId, tasks, setTasks }) => {
             type="text"
             defaultValue={item.description}
             name={`description-${item.id}`}
+            className={inputClassName}
           />
         </td>
         <td className={tdClassName}>
           <input
             type="datetime-local"
             name={`due_date-${item.id}`}
+            className={inputClassName}
             defaultValue={datetimeLocal(item.due_date)}
           />
         </td>
