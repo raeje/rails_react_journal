@@ -16,7 +16,7 @@ const LoginForm = () => {
 
   useEffect(() => {
     if (currentUser?.token) {
-      navigate("/dashboard");
+      navigate("/summary");
     }
   });
 
@@ -35,7 +35,7 @@ const LoginForm = () => {
     if (loginAction.status === 200) {
       console.log(loginAction.data);
       toast.success(`Welcome back ${loginForm.email}!`);
-      navigate("/dashboard");
+      navigate("/summary");
     } else {
       toast.error(loginAction.error);
     }

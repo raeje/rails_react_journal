@@ -25,8 +25,24 @@ const Overview = () => {
 
   return (
     <>
-      <CategoryForm setCategories={setCategories} />
-      {renderCards}
+      <div className="sm:px-6 w-full h-full col-span-3 row-span-5">
+        <div className="px-4 md:px-10 py-4 md:py-7">
+          <div className="flex items-center justify-between">
+            <p
+              tabIndex="0"
+              className="focus:outline-none text-base sm:text-lg md:text-xl lg:text-2xl font-bold leading-normal text-gray-800"
+            >
+              Categories
+            </p>
+          </div>
+        </div>
+        <div className="bg-white border-2 rounded-lg border-gray-400 text-xs h-full">
+          <div className="overflow-x-scroll h-full max-h-full border-gray-100 box-border col-span-10 grid grid-cols-3 grid-rows-6 gap-5 p-6 place-content-between">
+            <CategoryForm setCategories={setCategories} />
+            {renderCards}
+          </div>
+        </div>
+      </div>
       <ToastContainer />
     </>
   );

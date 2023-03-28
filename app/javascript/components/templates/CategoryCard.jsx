@@ -28,7 +28,7 @@ const CategoryCard = ({ category, index, setCategories }) => {
 
   return (
     <div
-      className="relative col-span-1 row-span-2 flex items-start justify-between rounded-xl border border-gray-400 p-2 shadow-xl sm:p-2 lg:px-8 lg:py-4 w-80 h-full row-span-2 hover:bg-slate-100"
+      className="relative col-span-1 row-span-3 flex items-start justify-between rounded-xl border border-gray-400 p-2 shadow-xl sm:p-2 lg:px-8 lg:py-4 w-80 h-full row-span-2 hover:bg-slate-100"
       key={"card" + index}
     >
       <div className="pt-4 text-gray-500">
