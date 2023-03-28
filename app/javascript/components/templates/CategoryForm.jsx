@@ -40,7 +40,7 @@ const CategoryForm = ({ setCategories }) => {
 
   return (
     <div
-      className="relative flex items-start justify-between rounded-xl border border-green-400 p-2 shadow-xl sm:p-2 lg:py-0.5 lg:px-8 w-80 h-full row-span-3"
+      className="relative flex items-start justify-between rounded-xl border border-green-400 shadow-xl sm:p-2 lg:py-5 lg:px-8 w-80 h-full row-span-3"
       key="new-card"
     >
       <div className="pt-2 text-gray-500">
