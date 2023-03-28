@@ -40,7 +40,7 @@ const CategoryForm = ({ setCategories }) => {
 
   return (
     <div
-      className="relative flex items-start justify-between rounded-xl border border-green-400 p-2 shadow-xl sm:p-6 lg:p-8 w-80 h-60"
+      className="relative flex items-start justify-between rounded-xl border border-green-400 p-2 shadow-xl sm:p-2 lg:py-0.5 lg:px-8 w-80 h-full row-span-2"
       key="new-card"
     >
       <div className="pt-2 text-gray-500">
@@ -73,7 +73,7 @@ const CategoryForm = ({ setCategories }) => {
         />
 
         <button
-          className="rounded-full font-bold w-full mt-4 bg-green-100 px-3 py-1.5 text-xs font-medium text-green-600"
+          className="rounded-full font-bold w-full mt-4 bg-green-100 px-3 py-1.5 text-xs font-medium text-green-600 hover:bg-green-200"
           onClick={handleCreate}
         >
           CREATE

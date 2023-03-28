@@ -206,7 +206,7 @@ const Dashboard = () => {
 
         <div
           id="dashboard-body"
-          className="overflow-scroll h-screen max-h-screen border-gray-100 box-border col-span-10 grid grid-cols-3 grid-rows-6 gap-10 p-12 place-content-between"
+          className="overflow-scroll h-screen max-h-screen border-gray-100 box-border col-span-10 grid grid-cols-3 grid-rows-6 gap-5 p-12 place-content-between"
         >
           <Outlet />
         </div>

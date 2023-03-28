@@ -61,7 +61,7 @@ const Category = () => {
 
   return (
     <>
-      <div className="max-h-screen border-gray-600 border-2 rounded-md col-span-3 row-span-2 p-5 grid grid-cols-8 grid-rows-2 gap-1">
+      <div className="max-h-screen border-gray-600 border-2 rounded-md col-span-3 row-span-2 p-5 grid grid-cols-8 grid-rows-2 gap-0.5">
         <input
           type="text"
           disabled={false}

@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { deleteCategory, getCategories } from "../../helpers/api_helper";
 
 const CategoryCard = ({ category, index, setCategories }) => {
+  console.log(category);
   const handleDelete = async () => {
     const deleteAction = await deleteCategory(category.id);
     if (deleteAction.status === 200) {
@@ -16,7 +17,7 @@ const CategoryCard = ({ category, index, setCategories }) => {
 
   return (
     <div
-      className="relative flex items-start justify-between rounded-xl border border-gray-100 p-2 shadow-xl sm:p-6 lg:p-8 w-80 h-60"
+      className="relative col-span-1 row-span-2 flex items-start justify-between rounded-xl border border-gray-400 p-2 shadow-xl sm:p-2 lg:px-8 lg:py-4 w-80 h-full row-span-2 hover:bg-slate-50"
       key={"card" + index}
     >
       <div className="pt-4 text-gray-500">
@@ -42,9 +43,9 @@ const CategoryCard = ({ category, index, setCategories }) => {
         <p className="mt-2 hidden text-sm sm:block">{category.description}</p>
       </div>
 
-      <div className="absolute top-3 right-3 w-1/6 flex items-start justify-between">
+      <div className="absolute top-3 right-3 w-18 flex items-start justify-between">
         <Link
-          className="rounded-full bg-blue-100 p-1 text-xs font-medium text-blue-600 "
+          className="rounded-full bg-blue-100 p-1.5 text-sm font-medium text-blue-600 hover:bg-blue-200 "
           to={`/category/${category.id}`}
         >
           <svg
@@ -63,7 +64,7 @@ const CategoryCard = ({ category, index, setCategories }) => {
           </svg>
         </Link>
         <button
-          className="rounded-full bg-red-100 p-1 text-xs font-medium text-red-600 "
+          className="rounded-full bg-red-100 p-1.5 text-sm font-medium text-red-600 hover:bg-red-200 ml-1"
           onClick={handleDelete}
         >
           <svg
