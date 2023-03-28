@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       # Custom routes
       get "tasks/due_today" => "tasks#due_today"
+      get "tasks/all" => "tasks#all"
 
       # Auth routes
       put "signup" => "auth#signup"

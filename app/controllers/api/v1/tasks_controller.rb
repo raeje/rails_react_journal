@@ -60,6 +60,11 @@ class Api::V1::TasksController < ApplicationController
     render json: { tasks: @due_tasks }
   end
 
+  def all
+    @tasks = Task.joins(:category).where(category: {user_id: params[:user_id]})
+    render json: { tasks: @tasks }
+  end
+
   private
   def task_params
     params.permit(:category_id, :name, :description, :due_date, :status)

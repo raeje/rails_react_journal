@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { deleteCategory, getCategories } from "../../helpers/api_helper";
+import {
+  deleteCategory,
+  getCategories,
+  getTasks,
+} from "../../helpers/api_helper";
 
 const CategoryCard = ({ category, index, setCategories }) => {
-  console.log(category);
+  const [tasksCount, setTasksCount] = useState(0);
   const handleDelete = async () => {
     const deleteAction = await deleteCategory(category.id);
     if (deleteAction.status === 200) {
@@ -15,9 +19,16 @@ const CategoryCard = ({ category, index, setCategories }) => {
     setCategories(data.categories);
   };
 
+  useEffect(() => {
+    (async () => {
+      const tasks = await getTasks(category.id);
+      setTasksCount(tasks.tasks.length);
+    })();
+  }, []);
+
   return (
     <div
-      className="relative col-span-1 row-span-2 flex items-start justify-between rounded-xl border border-gray-400 p-2 shadow-xl sm:p-2 lg:px-8 lg:py-4 w-80 h-full row-span-2 hover:bg-slate-50"
+      className="relative col-span-1 row-span-2 flex items-start justify-between rounded-xl border border-gray-400 p-2 shadow-xl sm:p-2 lg:px-8 lg:py-4 w-80 h-full row-span-2 hover:bg-slate-100"
       key={"card" + index}
     >
       <div className="pt-4 text-gray-500">
@@ -40,7 +51,10 @@ const CategoryCard = ({ category, index, setCategories }) => {
           {category.name}
         </h3>
 
-        <p className="mt-2 hidden text-sm sm:block">{category.description}</p>
+        <p className="mt-2 hidden text-md sm:block">{category.description}</p>
+        <span className="mt-2 text-sm sm:block text-blue-600">
+          {tasksCount} {tasksCount > 1 ? "tasks " : "task "} remaining.
+        </span>
       </div>
 
       <div className="absolute top-3 right-3 w-18 flex items-start justify-between">

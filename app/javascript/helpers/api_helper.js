@@ -126,6 +126,15 @@ const getTasks = async (id) => {
     .then((response) => response.data);
 };
 
+const getAllTasks = async () => {
+  const currentUser = getCurrentUser();
+  const user_id = currentUser.id;
+  const headers = { Authorization: currentUser.token, user_id };
+  return await axios
+    .get(`${URL}/tasks/all`, { params: { user_id }, headers })
+    .then((response) => response.data);
+};
+
 const createTask = async ({
   category_id,
   name,
@@ -206,6 +215,7 @@ export {
   updateCategory,
   deleteCategory,
   getTasks,
+  getAllTasks,
   createTask,
   updateTask,
   deleteTask,
