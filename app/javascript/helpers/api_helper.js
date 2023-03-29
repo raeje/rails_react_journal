@@ -4,7 +4,7 @@ import { setCurrentUser, getCurrentUser } from "./util";
 //const URL = process.env.JOURNAL_APP_URL;
 //const URL = "http://localhost:3000/api/v1";
 // Use render.com link for prod
-const URL = "${window.location.hostname}:5000";
+const URL = "";
 
 // ============================================================================
 // Users
