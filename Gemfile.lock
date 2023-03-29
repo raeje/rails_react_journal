@@ -94,6 +94,7 @@ GEM
     ffi (1.15.5)
     font-awesome-sass (6.3.0)
       sassc (~> 2.0)
+    foreman (0.87.2)
     globalid (1.1.0)
       activesupport (>= 5.0)
     i18n (1.12.0)
@@ -225,6 +226,7 @@ DEPENDENCIES
   capybara
   debug
   font-awesome-sass (~> 6.3.0)
+  foreman
   jbuilder
   jsbundling-rails
   jwt
