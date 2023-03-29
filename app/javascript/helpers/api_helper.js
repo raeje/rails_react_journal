@@ -2,7 +2,9 @@ import axios from "axios";
 import { setCurrentUser, getCurrentUser } from "./util";
 
 //const URL = process.env.JOURNAL_APP_URL;
-const URL = "http://localhost:3000/api/v1";
+//const URL = "http://localhost:3000/api/v1";
+// Use render.com link for prod
+const URL = "https://rails-react-journal.onrender.com";
 
 // ============================================================================
 // Users
