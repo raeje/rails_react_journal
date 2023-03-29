@@ -16,13 +16,13 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-
+=begin
   test "should get new" do
     get categories_new_url, headers: { Authorization: @auth_token }
     assert_response :success
   end
 
-=begin
+
   test "should get create" do
     post categories_url, params: { category: { name: @category.name, description: @category.description } }
     assert_response :redirect

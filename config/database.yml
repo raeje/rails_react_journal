@@ -86,3 +86,4 @@ production:
   database: rails_react_journal_production
   username: rails_react_journal
   password: <%= ENV["RAILS_REACT_JOURNAL_DATABASE_PASSWORD"] %>
+  url: <%= ENV['DATABASE_URL'] %>
