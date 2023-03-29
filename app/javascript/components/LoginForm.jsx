@@ -33,7 +33,6 @@ const LoginForm = () => {
     });
 
     if (loginAction.status === 200) {
-      console.log(loginAction.data);
       toast.success(`Welcome back ${loginForm.email}!`);
       navigate("/summary");
     } else {

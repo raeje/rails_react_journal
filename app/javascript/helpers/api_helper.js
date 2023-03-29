@@ -57,7 +57,6 @@ const getCategories = async () => {
   return await axios
     .get(`${URL}/categories`, { params: { user_id }, headers })
     .then((response) => {
-      console.log(response.data);
       return response.data;
     });
 };
@@ -77,7 +76,6 @@ const createCategory = async ({ name, description }) => {
       return response;
     })
     .catch((errors) => {
-      console.log(errors.response.data.errors);
       return errors.response.data;
     });
 };
